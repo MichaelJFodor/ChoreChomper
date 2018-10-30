@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+	<TextView
+		android:text="Chore name:"
+		android:textAppearance="?android:attr/textAppearanceLarge"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:id="@+id/textChoreName"/>
+	<EditText
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/textChoreName"
+		android:id="@+id/editChoreName"
+		android:clickable="false" />
+	<Button
+		android:text="Button"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/editChoreName"
+		android:id="@+id/buttonAddChore"
+		android:clickable="false" />
+	
+	<TextView
+		android:text="Chore list:"
+		android:textAppearance="?android:attr/textAppearanceLarge"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/buttonAddChore"
+		android:id="@+id/textChoreList" />
+	
+	<!--
+	<ListView
+		android:minWidth="25px"
+		android:minHeight="25px"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/textChoreList"
+		android:id="@+id/listOfChores" />
+	-->
+	<TextView
+		android:text="Test Display"
+				android:textAppearance="?android:attr/textAppearanceLarge"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/textChoreList"
+		android:id="@+id/textChoreDisp" />
+	<Button
+		android:text="Send Chore to Database"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/textChoreDisp"
+		android:id="@+id/sendToDataBase"
+		android:clickable="false" />
+	<!--<TextView
+		android:text="Login Page"
+		android:textAppearance="?android:attr/textAppearanceLarge"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/textChoreDisp"
+		android:id="@+id/textLoginHeader"/>
+	/>
+	<TextView
+		android:text="Username: "
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/textLoginHeader"
+		android:id="@+id/usernameText"/>
+	<EditText
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/usernameText"
+		android:id="@+id/enterUsername"
+		android:clickable="false" />
+	<TextView
+		android:text="Password: "
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/enterUsername"
+		android:id="@+id/passwordHeader"/>
+	<EditText
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/passwordHeader"
+		android:id="@+id/enterPassword"
+		android:clickable="false" />
+	<Button
+		android:text="Login"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/enterPassword"
+		android:id="@+id/LoginButton"
+		android:clickable="false" />
+	<TextView
+		android:text="Login Credential display"
+				android:textAppearance="?android:attr/textAppearanceLarge"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/LoginButton"
+		android:id="@+id/loginCredentialDisplay" />
+	-->
+</RelativeLayout>

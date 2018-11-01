@@ -6,10 +6,13 @@ using Android.Widget;
 using UserSpace;
 using GroupSpace;
 using ChoreSpace;
-using MySql.Data;
-using MySql.Data.MySqlClient;
 using System;
-using System.Data;
+using System.IO;
+using System.Net;
+using System.Text;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 
 
@@ -32,23 +35,20 @@ namespace ChoreChomper
             {
                 choreNameView.Text = Controller.AddTestChore(choreNameText.Text);
             };
-            string server = "192.168.0.12";
-            string database = "chorechomper";
-            string password = "chorechomper";
-            string uid = "chorechomper";
-            string connectionString;
-            connectionString = "SERVER=" + server + "; PORT = 3306 ;" + "DATABASE=" + database + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + ";";
-            MySqlConnection mycon = new MySqlConnection(connectionString);
+            
+            
            
-            string sql = "insert into chorechomper.chores(chore_title) values(@name1)";
+            
             sendData.Click += (sender, e) =>
             {
-                 mycon.Open();
-                MySqlCommand cmd = new MySqlCommand(sql, mycon);
-                cmd.Parameters.Add("@name1", MySqlDbType.VarChar);
-                cmd.Parameters["@name"].Value = "testfromchorechomperapp";
-                cmd.ExecuteNonQuery();
-                mycon.Close();
+                HttpWebRequest myRequest = (HttpWebRequest)WebRequest.Create("http://10.0.2.2/chorechomper/testinsert.php");
+                myRequest.Method = "GET";
+                WebResponse myResponse = myRequest.GetResponse();
+                StreamReader sr = new StreamReader(myResponse.GetResponseStream(), System.Text.Encoding.UTF8);
+                string result = sr.ReadToEnd();
+                result = result.Replace('\n', ' ');
+                sr.Close();
+                myResponse.Close();
             };
 
         }

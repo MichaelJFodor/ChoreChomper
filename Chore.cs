@@ -1,6 +1,6 @@
-﻿using TimeSpace;
+﻿using ChoreChomper.Model.Utility;
 
-namespace ChoreSpace
+namespace ChoreChomper.Model
 {
     public class Chore
     {

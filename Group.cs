@@ -1,11 +1,8 @@
 ﻿using System.Collections.Generic;
-using UserSpace;
-using TaskSpace;
-using ChoreSpace;
 
-namespace GroupSpace
+namespace ChoreChomper.Model
 {
-    class Group
+    public class Group
     {
         int groupId;
         string groupName;

@@ -1,6 +1,6 @@
-﻿namespace UserSpace
+﻿namespace ChoreChomper.Model
 {
-    class User
+    public class User
     {
         int userId;
         string userName;

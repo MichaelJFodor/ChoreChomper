@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using ChoreSpace;
 
-namespace TaskSpace
+namespace ChoreChomper.Model
 {
-    class TaskList //Renamed from Calendar to avoid collisions and clarify use
+    public class TaskList //Renamed from Calendar to avoid collisions and clarify use
     {
         List<Chore> choreList = new List<Chore>();
 
@@ -33,6 +32,18 @@ namespace TaskSpace
                 return "";
             else
                 return choreList[0].GetName();
+        }
+
+        public List<string> GetChoreNames()
+        {
+            List<string> desiredList = new List<string>();
+
+            foreach (Chore chore in choreList)
+            {
+                desiredList.Add(chore.GetName());
+            }
+
+            return desiredList;
         }
     }
 }

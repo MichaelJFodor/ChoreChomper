@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TimeSpace
+namespace ChoreChomper.Model.Utility
 {
     public class Timestamp
     {

@@ -6,34 +6,35 @@
 	<TextView
 		android:text="Username:"
 		android:textAppearance="?android:attr/textAppearanceLarge"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:id="@+id/textUsername"/>
-	<EditText
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:id="@+id/editUsername"
-		android:clickable="false" />
+		android:minWidth="25px"
+		android:minHeight="25px"
+		android:id="@+id/textUsername" />
+	<android.support.design.widget.TextInputEditText
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:id="@+id/editUsername" />
 	<TextView
 		android:text="Password:"
 		android:textAppearance="?android:attr/textAppearanceLarge"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:id="@+id/textPassword"/>
-	<EditText
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:id="@+id/editPassword"
-		android:clickable="false"
+		android:id="@+id/textPassword" />
+	<android.support.design.widget.TextInputEditText
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
 		android:inputType="none|textPassword" />
+		android:id="@+id/editPassword" />
 	<Button
-		android:text="Login"
+		android:text="Confirm"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:id="@+id/buttonLogin" />
+		android:id="@+id/buttonConfirm" />
 	<Button
-		android:text="New User"
+		android:text="Cancel"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:id="@+id/buttonNewUser" />
+		android:id="@+id/buttonCancel" />
+
 </LinearLayout>

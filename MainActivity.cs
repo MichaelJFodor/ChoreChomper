@@ -46,6 +46,12 @@ namespace ChoreChomper
                 controller = new HomeController(this);
                 return true;
             }
+            else if (layout == Resource.Layout.newUserLayout)
+            {
+                SetContentView(Resource.Layout.newUserLayout);
+                controller = new NewUserController(this);
+                return true;
+            }
             else if (layout == Resource.Layout.choreListLayout)
             {
                 SetContentView(Resource.Layout.choreListLayout);

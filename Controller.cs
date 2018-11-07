@@ -26,17 +26,51 @@ namespace ChoreChomper.ViewControllers
         EditText usernameText;
         EditText passwordText;
         Button loginButton;
+        Button newUserButton;
 
         public LoginController(MainActivity act)
         {
             usernameText = act.FindViewById<EditText>(Resource.Id.editUsername);
             passwordText = act.FindViewById<EditText>(Resource.Id.editPassword);
             loginButton = act.FindViewById<Button>(Resource.Id.buttonLogin);
+            newUserButton = act.FindViewById<Button>(Resource.Id.buttonNewUser);
 
             loginButton.Click += (sender, e) =>
             {
                 // TODO: handle login attempt
                 act.ChangeTo(Resource.Layout.activity_main);
+            };
+
+            newUserButton.Click += (sender, e) =>
+            {
+                act.ChangeTo(Resource.Layout.newUserLayout);
+            };
+        }
+    }
+
+    class NewUserController : Controller
+    {
+        EditText usernameText;
+        EditText passwordText;
+        Button confirmButton;
+        Button cancelButton;
+
+        public NewUserController(MainActivity act)
+        {
+            usernameText = act.FindViewById<EditText>(Resource.Id.editUsername);
+            passwordText = act.FindViewById<EditText>(Resource.Id.editPassword);
+            confirmButton = act.FindViewById<Button>(Resource.Id.buttonConfirm);
+            cancelButton = act.FindViewById<Button>(Resource.Id.buttonCancel);
+
+            confirmButton.Click += (sender, e) =>
+            {
+                // TODO: handle login attempt
+                act.ChangeTo(Resource.Layout.loginLayout);
+            };
+
+            cancelButton.Click += (sender, e) =>
+            {
+                act.ChangeTo(Resource.Layout.loginLayout);
             };
         }
     }

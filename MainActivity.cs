@@ -52,16 +52,52 @@ namespace ChoreChomper
                 controller = new NewUserController(this);
                 return true;
             }
+            else if (layout == Resource.Layout.loginLayout)
+            {
+                SetContentView(Resource.Layout.loginLayout);
+                controller = new LoginController(this);
+                return true;
+            }
+            else if (layout == Resource.Layout.mainMenuLayout)
+            {
+                SetContentView(Resource.Layout.mainMenuLayout);
+                controller = new MenuController(this);
+                return true;
+            }
             else if (layout == Resource.Layout.choreListLayout)
             {
                 SetContentView(Resource.Layout.choreListLayout);
                 controller = new ChoreListController(this);
                 return true;
             }
-            else if(layout == Resource.Layout.loginLayout)
+            else if (layout == Resource.Layout.choreCreateLayout)
             {
-                SetContentView(Resource.Layout.loginLayout);
-                controller = new LoginController(this);
+                SetContentView(Resource.Layout.choreCreateLayout);
+                controller = new ChoreCreationController(this);
+                return true;
+            }
+            else if (layout == Resource.Layout.choreEditLayout)
+            {
+                SetContentView(Resource.Layout.choreEditLayout);
+                //controller = new ChoreEditController(this);
+                return true;
+            }
+            else if (layout == Resource.Layout.groupListLayout)
+            {
+                SetContentView(Resource.Layout.groupListLayout);
+                controller = new GroupListController(this);
+                return true;
+            }
+            else if (layout == Resource.Layout.groupCreateLayout)
+            {
+                SetContentView(Resource.Layout.groupCreateLayout);
+                controller = new GroupCreateController(this);
+                return true;
+            }
+            else if (layout == Resource.Layout.joinGroupLayout)
+            {
+                SetContentView(Resource.Layout.groupCreateLayout);
+                controller = new JoinGroupController(this);
                 return true;
             }
             else

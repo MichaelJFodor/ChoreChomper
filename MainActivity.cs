@@ -35,20 +35,21 @@ namespace ChoreChomper
             {
                 choreNameView.Text = Controller.AddTestChore(choreNameText.Text);
             };
-            
-            
-           
-            
+
+
+
+
             sendData.Click += (sender, e) =>
             {
-                HttpWebRequest myRequest = (HttpWebRequest)WebRequest.Create("http://10.0.2.2/chorechomper/testinsert.php");
-                myRequest.Method = "GET";
+                HttpWebRequest myRequest = (HttpWebRequest)WebRequest.Create("http://192.168.1.205/chorechomper/api/chore/read.php");
                 WebResponse myResponse = myRequest.GetResponse();
                 StreamReader sr = new StreamReader(myResponse.GetResponseStream(), System.Text.Encoding.UTF8);
                 string result = sr.ReadToEnd();
                 result = result.Replace('\n', ' ');
                 sr.Close();
                 myResponse.Close();
+                choreNameView.Text = result;
+                //Console.WriteLine(result);
             };
 
         }
@@ -61,7 +62,7 @@ namespace ChoreChomper
             User user = new User().GenerateTestUser();
             Group group = new Group().GenerateTestGroup();
             group.AddUser(user);
-            Chore chore = new Chore(name, user.GetId(), "11/11/111");
+            Chore chore = new Chore(name, user.GetId(), "11/11/111", false, 0);
             group.AddChore(chore);
             return (group.GetTaskList().GetHeadChoreName());
         }

@@ -1,0 +1,7 @@
+implement in wamp (drop api in www dir), update httpd-vhosts.conf     Require all granted
+
+replace main activity 
+
+setup chorechomper db
+
+check local ip and implement in VS (replace 192.blah.b.asdlfk)

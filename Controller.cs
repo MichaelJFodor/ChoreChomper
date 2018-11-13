@@ -41,12 +41,25 @@ namespace ChoreChomper.ViewControllers
             passwordText = act.FindViewById<EditText>(Resource.Id.editPassword);
             loginButton = act.FindViewById<Button>(Resource.Id.buttonLogin);
             newUserButton = act.FindViewById<Button>(Resource.Id.buttonNewUser);
-           
+            string username = usernameText.Text;
+            string password = passwordText.Text;
             loginButton.Click += (sender, e) =>
             {
                 // TODO: handle login attempt
-                act.ChangeTo(Resource.Layout.activity_main);
+                HttpWebRequest myRequestLogin = (HttpWebRequest)WebRequest.Create("http://10.0.2.2/chorechomper/logincheck.php?Username_Attempt=" + username + "&Password_attempt=" + password);
+                WebResponse myResponseLogin = myRequestLogin.GetResponse();
+                StreamReader srLogin = new StreamReader(myResponseLogin.GetResponseStream(), System.Text.Encoding.UTF8);
+                string resultLogin = srLogin.ReadToEnd();
+                resultLogin = resultLogin.Replace('\n', ' ');
+                srLogin.Close();
+                myResponseLogin.Close();
+                if (resultLogin != null)
+                {
+                    act.ChangeTo(Resource.Layout.activity_main);
+                }
+                 //act.ChangeTo(Resource.Layout.loginLayout);
             };
+                
 
             newUserButton.Click += (sender, e) =>
             {

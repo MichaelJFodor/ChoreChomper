@@ -13,6 +13,7 @@ using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 
 
@@ -33,7 +34,8 @@ namespace ChoreChomper
             Button sendData = FindViewById<Button>(Resource.Id.sendToDataBase);
             addButton.Click += (sender, e) =>
             {
-                choreNameView.Text = Controller.AddTestChore(choreNameText.Text);
+                choreNameView.Text = choreNameText.Text;
+                //choreNameView.Text = Controller.AddTestChore(choreNameText.Text);
             };
 
 
@@ -41,14 +43,19 @@ namespace ChoreChomper
 
             sendData.Click += (sender, e) =>
             {
-                HttpWebRequest myRequest = (HttpWebRequest)WebRequest.Create("http://192.168.1.205/chorechomper/api/chore/read.php");
+                HttpWebRequest myRequest = (HttpWebRequest)WebRequest.Create("http://192.168.1.205/chorechomper/api/chore/read_one.php?c_id="+choreNameView.Text);
                 WebResponse myResponse = myRequest.GetResponse();
                 StreamReader sr = new StreamReader(myResponse.GetResponseStream(), System.Text.Encoding.UTF8);
                 string result = sr.ReadToEnd();
-                result = result.Replace('\n', ' ');
                 sr.Close();
                 myResponse.Close();
-                choreNameView.Text = result;
+                dynamic choreTemp = JsonConvert.DeserializeObject(result);
+                string name = choreTemp.choreName;
+                string date = choreTemp.deadlineTimestamp;
+                //choreNameView.Text = choreTemp.choreName + " " + choreTemp.deadlineTimestamp;
+                Chore c = new Chore(name, 0, date, false, 0);
+                choreNameView.Text = c.GetName() + " due: " + c.GetDeadline();
+                //choreNameView.Text = result;
                 //Console.WriteLine(result);
             };
 
@@ -62,7 +69,7 @@ namespace ChoreChomper
             User user = new User().GenerateTestUser();
             Group group = new Group().GenerateTestGroup();
             group.AddUser(user);
-            Chore chore = new Chore(name, user.GetId(), "11/11/111", false, 0);
+            Chore chore = new Chore(name, user.GetId(), "1111/11/11", false, 0);
             group.AddChore(chore);
             return (group.GetTaskList().GetHeadChoreName());
         }

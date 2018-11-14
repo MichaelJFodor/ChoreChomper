@@ -4,20 +4,19 @@ using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 using Android.Runtime;
 using Android.Widget;
+using System.Collections.Generic;
 
-using ChoreChomper.ViewControllers;
+using ChoreChomper.Controller;
 using ChoreChomper.Model;
+using ChoreChomper.Data;
 
 namespace ChoreChomper
 {
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
     public class MainActivity : AppCompatActivity
     {
-        ChoreChomper.ViewControllers.Controller controller;
-        ChoreChomper.Model.User user;
-        ChoreChomper.Model.Group group;
-        public User getMainUser() { return user; }
-        public Group getMainGroup() { return group; }
+        ChoreChomper.Controller.Controller controller;
+        SessionData currentSession = new SessionData();
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -31,11 +30,35 @@ namespace ChoreChomper
             controller = new LoginController(this);
         }
         
+        public User getMainUser() { return currentSession.getCurrentUser(); }
+        public Group getMainGroup() { return currentSession.getUsersGroups()[0]; }
+        public List<Group> getUsersGroups() { return currentSession.getUsersGroups(); }
+        public Group GetTargetGroup() { return currentSession.GetTargetGroup(); }
+        public Chore GetTargetChore() { return currentSession.GetTargetChore(); }
+        public Group SetTargetGroup(Group group)
+        {
+            currentSession.SetTargetGroup(group);
+            return GetTargetGroup();
+        }
+        public Chore SetTargetChore(Chore chore)
+        {
+            currentSession.SetTargetChore(chore);
+            return GetTargetChore();
+        }
+
+        private void AttemptLogin(string username, string password)
+        {
+            bool credentialsAreValid = true;
+            // TODO: check database to see if these credentials are valid
+            if (credentialsAreValid)
+            {
+                currentSession.LoadUser(username);
+            }
+        }
+
         private void SetupUserData()
         {
-            user = new User().GenerateTestUser();
-            group = new Group().GenerateTestGroup();
-            group.AddUser(user);
+            currentSession.GenerateTestSession();
         }
 
         public bool ChangeTo(int layout)
@@ -79,7 +102,7 @@ namespace ChoreChomper
             else if (layout == Resource.Layout.choreEditLayout)
             {
                 SetContentView(Resource.Layout.choreEditLayout);
-                //controller = new ChoreEditController(this);
+                controller = new ChoreEditController(this);
                 return true;
             }
             else if (layout == Resource.Layout.groupListLayout)
@@ -93,13 +116,13 @@ namespace ChoreChomper
                 SetContentView(Resource.Layout.groupCreateLayout);
                 controller = new GroupCreateController(this);
                 return true;
-            }
+            }/*
             else if (layout == Resource.Layout.joinGroupLayout)
             {
                 SetContentView(Resource.Layout.groupCreateLayout);
                 controller = new JoinGroupController(this);
                 return true;
-            }
+            }*/
             else
                 return false;
         }

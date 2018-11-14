@@ -14,7 +14,7 @@ using Android.Widget;
 
 using ChoreChomper.Model;
 
-namespace ChoreChomper.ViewControllers
+namespace ChoreChomper.Controller
 {
     class Controller
     {
@@ -143,16 +143,19 @@ namespace ChoreChomper.ViewControllers
 
     class ChoreListController:Controller
     {
+        List<Chore> chores;
         Button mainMenuButton;
         Button addChoreButton;
         ListView choreListView;
-
+        
         public ChoreListController(MainActivity act)
         {
+            chores = SetupChores(act);
             mainMenuButton = act.FindViewById<Button>(Resource.Id.menuButtonChoreList);
             addChoreButton = act.FindViewById<Button>(Resource.Id.buttonAddChore);
             choreListView = act.FindViewById<ListView>(Resource.Id.listOfChores);
 
+            SetupChores(act);
             SetupList(act);
 
             mainMenuButton.Click += (sender, e) =>
@@ -164,6 +167,25 @@ namespace ChoreChomper.ViewControllers
             {
                 act.ChangeTo(Resource.Layout.choreCreateLayout);
             };
+
+            choreListView.ItemClick += (sender, e) =>
+            {
+                Chore targetChore = chores[(int)e.Id];
+                act.SetTargetChore(targetChore);
+                act.ChangeTo(Resource.Layout.choreEditLayout);
+            };
+        }
+
+        private List<Chore> SetupChores (MainActivity act)
+        {
+            List<Chore> fullList = act.getMainGroup().GetTaskList().GetChoreList();
+            List<Chore> ListOfIncomplete = new List<Chore>();
+            foreach (Chore c in fullList)
+            {
+                if (!c.isComplete())
+                    ListOfIncomplete.Add(c);
+            }
+            return ListOfIncomplete;
         }
 
         private void SetupTestList(MainActivity act)
@@ -184,7 +206,11 @@ namespace ChoreChomper.ViewControllers
 
         private void SetupList(MainActivity act)
         {
-            List<string> choreNames = act.getMainGroup().GetTaskList().GetChoreNames();
+            List<string> choreNames = new List<string>();
+            foreach (Chore c in chores)
+            {
+                choreNames.Add(c.GetName());
+            }
             ArrayAdapter<string> adapter = new ArrayAdapter<string>(act, Android.Resource.Layout.SimpleListItem1, choreNames);
             choreListView.Adapter = adapter;
             // TODO: add stuff to chore list and make it display them
@@ -227,6 +253,7 @@ namespace ChoreChomper.ViewControllers
 
     class ChoreEditController : Controller
     {
+        Chore targetChore;
         EditText desiredChoreNameText;
         Button confirmChoreButton;
         Button completeChoreButton;
@@ -234,10 +261,29 @@ namespace ChoreChomper.ViewControllers
 
         public ChoreEditController(MainActivity act)
         {
+            targetChore = act.GetTargetChore();
             desiredChoreNameText = act.FindViewById<EditText>(Resource.Id.editChoreEditText);
             confirmChoreButton = act.FindViewById<Button>(Resource.Id.buttonConfirmEditChore);
             completeChoreButton = act.FindViewById<Button>(Resource.Id.buttonCompleteChore);
             backButton = act.FindViewById<Button>(Resource.Id.buttonChoreEditToChoreList);
+            desiredChoreNameText.Text = targetChore.GetName();
+
+            confirmChoreButton.Click += (sender, e) =>
+            {
+                ApplyEdits();
+                act.ChangeTo(Resource.Layout.choreListLayout);
+            };
+            
+            void ApplyEdits()
+            {
+                targetChore.SetName(desiredChoreNameText.Text);
+            }
+
+            completeChoreButton.Click += (sender, e) =>
+            {
+                targetChore.SetComplete(true);
+                act.ChangeTo(Resource.Layout.choreListLayout);
+            };
 
             backButton.Click += (sender, e) =>
             {
@@ -255,6 +301,7 @@ namespace ChoreChomper.ViewControllers
 
     class GroupListController : Controller
     {
+        List<Group> groups;
         Button mainMenuButton;
         Button joinGroupButton;
         Button createGroupButton;
@@ -267,21 +314,27 @@ namespace ChoreChomper.ViewControllers
             createGroupButton = act.FindViewById<Button>(Resource.Id.buttonCreateGroup);
             groupListView = act.FindViewById<ListView>(Resource.Id.listOfGroups);
 
-            SetupTestList(act);
+            SetupList(act);
 
             mainMenuButton.Click += (sender, e) =>
             {
                 act.ChangeTo(Resource.Layout.mainMenuLayout);
             };
 
+            groupListView.ItemClick += (sender, e) =>
+            {
+                Group targetGroup = groups[(int)e.Id];
+                act.SetTargetGroup(targetGroup);
+            };
+
             joinGroupButton.Click += (sender, e) =>
             {
-                //act.ChangeTo(Resource.Layout.joinGroupLayout);
+                act.ChangeTo(Resource.Layout.joinGroupLayout);
             };
 
             createGroupButton.Click += (sender, e) =>
             {
-                //act.ChangeTo(Resource.Layout.createGroupLayout);
+                act.ChangeTo(Resource.Layout.groupCreateLayout);
             };
         }
 
@@ -303,7 +356,14 @@ namespace ChoreChomper.ViewControllers
 
         private void SetupList(MainActivity act)
         {
-            // TODO: add groups to group list and make it display them
+            groups = act.getUsersGroups();
+            List<string> groupNames = new List<string>();
+            foreach (Group g in groups)
+            {
+                groupNames.Add(g.getName());
+            }
+            ArrayAdapter<string> adapter = new ArrayAdapter<string>(act, Android.Resource.Layout.SimpleListItem1, groupNames);
+            groupListView.Adapter = adapter;
         }
     }
 
@@ -324,12 +384,12 @@ namespace ChoreChomper.ViewControllers
                 // TODO: consider making addTestChore a bool and using that to determine if the chore was added
                 AddTestChore(newGroupNameText.Text, act);
                 newGroupNameText.Text = "chore added";
-                act.ChangeTo(Resource.Layout.choreListLayout);
+                act.ChangeTo(Resource.Layout.groupListLayout);
             };
 
             backButton.Click += (sender, e) =>
             {
-                act.ChangeTo(Resource.Layout.choreListLayout);
+                act.ChangeTo(Resource.Layout.groupListLayout);
             };
         }
 
@@ -348,15 +408,23 @@ namespace ChoreChomper.ViewControllers
         Button backButton;
 
         public JoinGroupController(MainActivity act)
-        {/*
+        {
             newGroupNameText = act.FindViewById<EditText>(Resource.Id.editJoinGroupName);
             joinGroupButton = act.FindViewById<Button>(Resource.Id.buttonConfirmJoinGroup);
             backButton = act.FindViewById<Button>(Resource.Id.buttonJoinGroupToChoreList);
-
+            
+            /*
+            joinGroupButton.Click += (sender, e) =>
+            {
+                act.ChangeTo(Resource.Layout.groupListLayout);
+                // TODO: actually join the group with the entered credentials
+            };
+            
             backButton.Click += (sender, e) =>
             {
-                act.ChangeTo(Resource.Layout.choreListLayout);
-            };*/
+                act.ChangeTo(Resource.Layout.groupListLayout);
+            };
+            */
         }
     }
 }

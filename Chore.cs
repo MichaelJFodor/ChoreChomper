@@ -26,6 +26,18 @@ namespace ChoreChomper.Model
             deadlineTimestamp = new Timestamp(deadline);
         }
 
+        public Chore(Chore old)
+        {
+            choreId = old.choreId;
+            choreName = old.choreName;
+            assignedUserId = old.assignedUserId;
+            completedUserId = old.completedUserId;
+            deadlineTimestamp = new Timestamp(old.deadlineTimestamp);
+            completedTimestamp = new Timestamp(old.completedTimestamp);
+            isPriority = old.isPriority;
+            isCompleted = old.isCompleted;
+        }
+
         int generateChoreId()
         {
             //TODO: fetch greatest chore id and increment by 1
@@ -65,6 +77,24 @@ namespace ChoreChomper.Model
         public string GetName()
         {
             return (choreName);
+        }
+
+        //for testing?
+        public string SetName(string name)
+        {
+            choreName = name;
+            return choreName;
+        }
+
+        public bool isComplete()
+        {
+            return isCompleted;
+        }
+
+        public bool SetComplete(bool completed)
+        {
+            isCompleted = completed;
+            return isCompleted;
         }
     }
 }

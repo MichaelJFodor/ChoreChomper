@@ -45,5 +45,20 @@ namespace ChoreChomper.Model
 
             return desiredList;
         }
+
+        public List<Chore> GetChoreListCopy()
+        {
+            List<Chore> returnList = new List<Chore>();
+            foreach (Chore c in choreList)
+            {
+                returnList.Add(new Chore(c));
+            }
+            return returnList;
+        }
+
+        public List<Chore> GetChoreList()
+        {
+            return choreList;
+        }
     }
 }

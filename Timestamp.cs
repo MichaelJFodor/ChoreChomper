@@ -17,6 +17,14 @@ namespace ChoreChomper.Model.Utility
             isValid = false;
         }
 
+        public Timestamp(Timestamp old)
+        {
+            day = old.day;
+            month = old.month;
+            year = old.year;
+            isValid = old.isValid;
+        }
+
         public Timestamp(int passDay, int passMonth, int passYear)
         {
             day = passDay;

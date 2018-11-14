@@ -21,7 +21,7 @@ namespace ChoreChomper.Model
         public bool AssignGroup(int groupId)
         {
             //TODO:
-            //Fetch Grouup data corresponding to groupId
+            //Fetch Group data corresponding to groupId
             //Assign data values to group
             valid = true;
             //return false if group was not created or true if it was
@@ -40,6 +40,7 @@ namespace ChoreChomper.Model
         
         public Group GenerateNew(string Name)
         {
+            //TODO:
             //Add a new group to the database with name Name
             //Add the local user to the group's list of users
             return (new Group());
@@ -70,6 +71,11 @@ namespace ChoreChomper.Model
         public TaskList GetTaskList()
         {
             return(tasks);
+        }
+
+        public string getName()
+        {
+            return groupName;
         }
     }
 }

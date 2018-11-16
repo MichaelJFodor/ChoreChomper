@@ -151,7 +151,7 @@ namespace ChoreChomper.Controller
         public ChoreListController(MainActivity act)
         {
             chores = SetupChores(act);
-            mainMenuButton = act.FindViewById<Button>(Resource.Id.menuButtonChoreList);
+            mainMenuButton = act.FindViewById<Button>(Resource.Id.navButtonChoreList);
             addChoreButton = act.FindViewById<Button>(Resource.Id.buttonAddChore);
             choreListView = act.FindViewById<ListView>(Resource.Id.listOfChores);
 
@@ -309,7 +309,7 @@ namespace ChoreChomper.Controller
 
         public GroupListController(MainActivity act)
         {
-            mainMenuButton = act.FindViewById<Button>(Resource.Id.menuButtonGroupList);
+            mainMenuButton = act.FindViewById<Button>(Resource.Id.navButtonGroupList);
             joinGroupButton = act.FindViewById<Button>(Resource.Id.buttonJoinGroup);
             createGroupButton = act.FindViewById<Button>(Resource.Id.buttonCreateGroup);
             groupListView = act.FindViewById<ListView>(Resource.Id.listOfGroups);
@@ -325,6 +325,7 @@ namespace ChoreChomper.Controller
             {
                 Group targetGroup = groups[(int)e.Id];
                 act.SetTargetGroup(targetGroup);
+                SetupList(act);
             };
 
             joinGroupButton.Click += (sender, e) =>
@@ -357,13 +358,34 @@ namespace ChoreChomper.Controller
         private void SetupList(MainActivity act)
         {
             groups = act.getUsersGroups();
-            List<string> groupNames = new List<string>();
-            foreach (Group g in groups)
-            {
-                groupNames.Add(g.getName());
-            }
+            List<Group> orderedGroups = CreateOrderedGroupList(groups, act);
+            List<string> groupNames = GetNamesOfGroups(orderedGroups);
             ArrayAdapter<string> adapter = new ArrayAdapter<string>(act, Android.Resource.Layout.SimpleListItem1, groupNames);
             groupListView.Adapter = adapter;
+        }
+
+        private List<Group> CreateOrderedGroupList(List<Group> groups, MainActivity act)
+        {
+            List<Group> orderedGroups = new List<Group>();
+            Group currentTargetGroup = act.GetTargetGroup();
+            foreach (Group g in groups)
+            {
+                if (g == currentTargetGroup)
+                    orderedGroups.Insert(0, g);
+                else
+                    orderedGroups.Add(g);
+            }
+            return orderedGroups;
+        }
+
+        private List<string> GetNamesOfGroups(List<Group> orderedGroups)
+        {
+            List<string> names = new List<string>();
+            foreach (Group g in orderedGroups)
+            {
+                names.Add(g.getName());
+            }
+            return names;
         }
     }
 
@@ -413,7 +435,6 @@ namespace ChoreChomper.Controller
             joinGroupButton = act.FindViewById<Button>(Resource.Id.buttonConfirmJoinGroup);
             backButton = act.FindViewById<Button>(Resource.Id.buttonJoinGroupToChoreList);
             
-            /*
             joinGroupButton.Click += (sender, e) =>
             {
                 act.ChangeTo(Resource.Layout.groupListLayout);
@@ -424,7 +445,6 @@ namespace ChoreChomper.Controller
             {
                 act.ChangeTo(Resource.Layout.groupListLayout);
             };
-            */
         }
     }
 }

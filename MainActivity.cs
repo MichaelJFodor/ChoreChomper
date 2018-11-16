@@ -63,68 +63,64 @@ namespace ChoreChomper
 
         public bool ChangeTo(int layout)
         {
+            bool valid = true;
+
             if (layout == Resource.Layout.activity_main)
             {
-                SetContentView(Resource.Layout.activity_main);
+                SetContentView(layout);
                 controller = new HomeController(this);
-                return true;
             }
             else if (layout == Resource.Layout.newUserLayout)
             {
-                SetContentView(Resource.Layout.newUserLayout);
+                SetContentView(layout);
                 controller = new NewUserController(this);
-                return true;
             }
             else if (layout == Resource.Layout.loginLayout)
             {
-                SetContentView(Resource.Layout.loginLayout);
+                SetContentView(layout);
                 controller = new LoginController(this);
-                return true;
             }
             else if (layout == Resource.Layout.mainMenuLayout)
             {
-                SetContentView(Resource.Layout.mainMenuLayout);
+                SetContentView(layout);
                 controller = new MenuController(this);
-                return true;
             }
             else if (layout == Resource.Layout.choreListLayout)
             {
-                SetContentView(Resource.Layout.choreListLayout);
+                SetContentView(layout);
                 controller = new ChoreListController(this);
-                return true;
             }
             else if (layout == Resource.Layout.choreCreateLayout)
             {
-                SetContentView(Resource.Layout.choreCreateLayout);
+                SetContentView(layout);
                 controller = new ChoreCreationController(this);
-                return true;
             }
             else if (layout == Resource.Layout.choreEditLayout)
             {
-                SetContentView(Resource.Layout.choreEditLayout);
+                SetContentView(layout);
                 controller = new ChoreEditController(this);
-                return true;
             }
             else if (layout == Resource.Layout.groupListLayout)
             {
-                SetContentView(Resource.Layout.groupListLayout);
+                SetContentView(layout);
                 controller = new GroupListController(this);
-                return true;
             }
             else if (layout == Resource.Layout.groupCreateLayout)
             {
-                SetContentView(Resource.Layout.groupCreateLayout);
+                SetContentView(layout);
                 controller = new GroupCreateController(this);
-                return true;
-            }/*
+            }
             else if (layout == Resource.Layout.joinGroupLayout)
             {
-                SetContentView(Resource.Layout.groupCreateLayout);
+                SetContentView(layout);
                 controller = new JoinGroupController(this);
-                return true;
-            }*/
+            }
             else
-                return false;
+            {
+                valid = false;
+            }
+
+            return valid;
         }
     }
 }

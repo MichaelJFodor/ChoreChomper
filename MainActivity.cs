@@ -35,6 +35,7 @@ namespace ChoreChomper
         public List<Group> getUsersGroups() { return currentSession.getUsersGroups(); }
         public Group GetTargetGroup() { return currentSession.GetTargetGroup(); }
         public Chore GetTargetChore() { return currentSession.GetTargetChore(); }
+        public Group JoinGroup(Group group) { return currentSession.JoinGroup(group); }
         public Group SetTargetGroup(Group group)
         {
             currentSession.SetTargetGroup(group);

@@ -46,10 +46,10 @@ namespace ChoreChomper.Model
             return (new Group());
         }
 
-        public Group GenerateTestGroup()
+        public Group GenerateTestGroup(string name = "Best_Group")
         {
             groupId = 0;
-            groupName = "Best_Group";
+            groupName = name;
             valid = true;
             users = new List<User>();
             tasks = new TaskList();

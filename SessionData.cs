@@ -64,11 +64,18 @@ namespace ChoreChomper.Data
             LoadUsersGroups(currentUser.GetId());
         }
 
-        private void LoadUsersGroups(int UserId)
+        private void LoadUsersGroups(int userId)
         {
             // TODO: get a list of all group information associated with user from database and put them in userGroups;
         }
         
+        public Group JoinGroup(Group newGroup)
+        {
+            usersGroups.Add(newGroup);
+            targetGroup = newGroup;
+            return targetGroup;
+        }
+
         public void GenerateTestSession()
         {
             currentUser = new User().GenerateTestUser();

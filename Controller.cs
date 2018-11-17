@@ -358,8 +358,8 @@ namespace ChoreChomper.Controller
         private void SetupList(MainActivity act)
         {
             groups = act.getUsersGroups();
-            List<Group> orderedGroups = CreateOrderedGroupList(groups, act);
-            List<string> groupNames = GetNamesOfGroups(orderedGroups);
+            groups = CreateOrderedGroupList(groups, act);
+            List<string> groupNames = GetNamesOfGroups(groups);
             ArrayAdapter<string> adapter = new ArrayAdapter<string>(act, Android.Resource.Layout.SimpleListItem1, groupNames);
             groupListView.Adapter = adapter;
         }
@@ -403,10 +403,12 @@ namespace ChoreChomper.Controller
 
             confirmGroupButton.Click += (sender, e) =>
             {
-                // TODO: consider making addTestChore a bool and using that to determine if the chore was added
-                AddTestChore(newGroupNameText.Text, act);
-                newGroupNameText.Text = "chore added";
-                act.ChangeTo(Resource.Layout.groupListLayout);
+                if (newGroupNameText.Text != "group added")
+                {
+                    AddTestGroup(newGroupNameText.Text, act);
+                    newGroupNameText.Text = "group added";
+                    act.ChangeTo(Resource.Layout.groupListLayout);
+                }
             };
 
             backButton.Click += (sender, e) =>
@@ -415,11 +417,11 @@ namespace ChoreChomper.Controller
             };
         }
 
-        public static string AddTestChore(string name, MainActivity act)
+        public Group AddTestGroup(string name, MainActivity act)
         {
-            Chore chore = new Chore(name, act.getMainUser().GetId(), "11/11/111");
-            act.getMainGroup().AddChore(chore);
-            return (act.getMainGroup().GetTaskList().GetHeadChoreName());
+            Group group = new Group();
+            group.GenerateTestGroup(name);
+            return act.JoinGroup(group);
         }
     }
 
@@ -439,6 +441,9 @@ namespace ChoreChomper.Controller
             {
                 act.ChangeTo(Resource.Layout.groupListLayout);
                 // TODO: actually join the group with the entered credentials
+                //  Check if group is in database
+                //  Check if you have the key for that group
+                //  Join group in database
             };
             
             backButton.Click += (sender, e) =>

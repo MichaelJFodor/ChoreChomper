@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+	<Button
+		android:text="◄"
+		android:layout_width="36.0dp"
+		android:layout_height="36.0dp"
+		android:layout_alignParentLeft="true"
+		android:id="@+id/buttonJoinGroupToChoreList" />
 	<TextView
-		android:text="Desired Group Name:"
+		android:text="Join Group"
 		android:textAppearance="?android:attr/textAppearanceLarge"
 		android:layout_width="match_parent"
 		android:layout_height="36.0dp"
@@ -12,20 +20,37 @@
 		android:minHeight="25px"
 		android:gravity="bottom"
 		android:textAlignment="gravity"
+		android:layout_toRightOf="@+id/buttonJoinGroupToChoreList"
+		android:id="@+id/textJoinGroupHeader" />
+	<TextView
+		android:text="Desired Group Name"
+		android:textAppearance="?android:attr/textAppearanceLarge"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/buttonJoinGroupToChoreList"
 		android:id="@+id/textJoinGroupName" />
 	<EditText
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
+		android:layout_below="@+id/textJoinGroupName"
 		android:id="@+id/editJoinGroupName" />
+	<TextView
+		android:text="Group Key"
+		android:textAppearance="?android:attr/textAppearanceLarge"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/editJoinGroupName"
+		android:id="@+id/textJoinGroupKey" />
+	<EditText
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/textJoinGroupKey"
+		android:id="@+id/editJoinGroupKey" />
 	<Button
 		android:text="Confrim Join"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
+		android:layout_alignParentBottom="true"
 		android:id="@+id/buttonConfirmJoinGroup" />
-	<Button
-		android:text="Back"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:id="@+id/buttonJoinGroupToChoreList" />
 
-</LinearLayout>
+</RelativeLayout>

@@ -262,7 +262,7 @@ namespace ChoreChomper.Controller
         public ChoreEditController(MainActivity act)
         {
             targetChore = act.GetTargetChore();
-            desiredChoreNameText = act.FindViewById<EditText>(Resource.Id.editChoreEditText);
+            desiredChoreNameText = act.FindViewById<EditText>(Resource.Id.editChoreEditName);
             confirmChoreButton = act.FindViewById<Button>(Resource.Id.buttonConfirmEditChore);
             completeChoreButton = act.FindViewById<Button>(Resource.Id.buttonCompleteChore);
             backButton = act.FindViewById<Button>(Resource.Id.buttonChoreEditToChoreList);

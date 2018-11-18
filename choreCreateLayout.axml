@@ -1,31 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+	<Button
+		android:text="◄"
+		android:layout_width="36.0dp"
+		android:layout_height="36.0dp"
+		android:layout_alignParentLeft="true"
+		android:id="@+id/buttonCreateChoreToChoreList" />
 	<TextView
-		android:text="New Chore:"
+		android:text="Create Chore:"
 		android:textAppearance="?android:attr/textAppearanceLarge"
-		android:layout_width="120dp"
+		android:layout_width="match_parent"
 		android:layout_height="36.0dp"
 		android:minWidth="25px"
 		android:minHeight="25px"
 		android:gravity="bottom"
 		android:textAlignment="gravity"
+		android:layout_toRightOf="@+id/buttonCreateChoreToChoreList"
+		android:id="@+id/textNewChoreHeader" />
+	<TextView
+		android:text="Chore Name"
+		android:textAppearance="?android:attr/textAppearanceLarge"
+		android:layout_width="match_parent"
+		android:layout_height="36.0dp"
+		android:minWidth="25px"
+		android:minHeight="25px"
+		android:gravity="bottom"
+		android:textAlignment="gravity"
+		android:layout_below="@+id/buttonCreateChoreToChoreList"
 		android:id="@+id/textNewChoreName" />
 	<EditText
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
+		android:layout_below="@+id/textNewChoreName"
 		android:id="@+id/editNewChoreName" />
+	<TextView
+		android:text="Assigned User"
+		android:textAppearance="?android:attr/textAppearanceLarge"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/editNewChoreName"
+		android:id="@+id/textNewChoreAssignment" />
+	<EditText
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/textNewChoreAssignment"
+		android:id="@+id/editNewChoreAssignment" />
+	<TextView
+		android:text="Chore Deadline"
+		android:textAppearance="?android:attr/textAppearanceLarge"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/editNewChoreAssignment"
+		android:id="@+id/textNewChoreDeadline" />
+	<EditText
+		android:inputType="date"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/textNewChoreDeadline"
+		android:id="@+id/dateNewChoreDeadline" />
+	<TextView
+		android:text="Priority"
+		android:textAppearance="?android:attr/textAppearanceLarge"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/dateNewChoreDeadline"
+		android:id="@+id/textNewChorePriority" />
+	<CheckBox
+		android:text=""
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_toRightOf="@+id/textNewChorePriority"
+		android:layout_below="@id/dateNewChoreDeadline"
+		android:id="@+id/checkNewChorePriority" />
 	<Button
 		android:text="Create Chore"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
+		android:layout_alignParentBottom="true"
 		android:id="@+id/buttonAddChore" />
-	<Button
-		android:text="Back"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:id="@+id/buttonCreateChoreToChoreList" />
 
-</LinearLayout>
+</RelativeLayout>

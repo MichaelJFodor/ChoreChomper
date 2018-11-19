@@ -29,23 +29,8 @@ namespace ChoreChomper
             SetContentView(Resource.Layout.loginLayout);
             controller = new LoginController(this);
         }
-        
-        public User getMainUser() { return currentSession.getCurrentUser(); }
-        public Group getMainGroup() { return currentSession.getUsersGroups()[0]; }
-        public List<Group> getUsersGroups() { return currentSession.getUsersGroups(); }
-        public Group GetTargetGroup() { return currentSession.GetTargetGroup(); }
-        public Chore GetTargetChore() { return currentSession.GetTargetChore(); }
-        public Group JoinGroup(Group group) { return currentSession.JoinGroup(group); }
-        public Group SetTargetGroup(Group group)
-        {
-            currentSession.SetTargetGroup(group);
-            return GetTargetGroup();
-        }
-        public Chore SetTargetChore(Chore chore)
-        {
-            currentSession.SetTargetChore(chore);
-            return GetTargetChore();
-        }
+
+        public SessionData GetSessionData() { return currentSession; }
 
         private void AttemptLogin(string username, string password)
         {
@@ -90,6 +75,11 @@ namespace ChoreChomper
             {
                 SetContentView(layout);
                 controller = new ChoreListController(this);
+            }
+            else if (layout == Resource.Layout.choreListSettingsLayout)
+            {
+                SetContentView(layout);
+                controller = new ChoreListSettingsController(this);
             }
             else if (layout == Resource.Layout.choreCreateLayout)
             {

@@ -27,6 +27,11 @@
             return userId;
         }
 
+        public string GetName()
+        {
+            return userName;
+        }
+
         public User GenerateTestUser()
         {
             userId = 0;

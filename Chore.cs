@@ -14,7 +14,7 @@ namespace ChoreChomper.Model
         bool isCompleted;
 
         //constructor
-        public Chore(string name, int passedUserId, string deadline)
+        public Chore(string name, int passedUserId, string deadline, bool priority = false)
         {
             isCompleted = false;
             completedUserId = -1;
@@ -23,7 +23,9 @@ namespace ChoreChomper.Model
             choreName = name;
             choreId = generateChoreId();
             assignedUserId = passedUserId;
-            deadlineTimestamp = new Timestamp(deadline);
+            if (deadline == "") { deadlineTimestamp = new Timestamp("00/00/0000").CurrentTimestamp(); }
+            else                { deadlineTimestamp = new Timestamp(deadline); }
+            isPriority = priority;
         }
 
         public Chore(Chore old)
@@ -84,6 +86,40 @@ namespace ChoreChomper.Model
         {
             choreName = name;
             return choreName;
+        }
+
+        public int GetAssignment()
+        {          
+            return assignedUserId;
+        }
+
+        public int SetAssignment(int newAssignedUserId)
+        {
+            assignedUserId = newAssignedUserId;
+            return assignedUserId;
+        }
+
+        public string GetDeadline()
+        {
+            return deadlineTimestamp.ToString();
+        }
+
+        public string SetDeadline(string newDeadline)
+        {
+            if (newDeadline != "")
+                deadlineTimestamp = new Timestamp(newDeadline);
+            return deadlineTimestamp.ToString();
+        }
+
+        public bool GetPriority()
+        {
+            return isPriority;
+        }
+
+        public bool SetPriority(bool newPriority)
+        {
+            isPriority = newPriority;
+            return isPriority;
         }
 
         public bool isComplete()

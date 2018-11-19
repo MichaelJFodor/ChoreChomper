@@ -104,39 +104,37 @@ namespace ChoreChomper.Controller
 
         public static string AddTestChore(string name, MainActivity act)
         {
-            Chore chore = new Chore(name, act.getMainUser().GetId(), "11/11/111");
-            act.getMainGroup().AddChore(chore);
-            return (act.getMainGroup().GetTaskList().GetHeadChoreName());
+            Chore chore = new Chore(name, act.GetSessionData().GetCurrentUser().GetId(), "11/11/111");
+            act.GetSessionData().GetTargetGroup().AddChore(chore);
+            return (act.GetSessionData().GetTargetGroup().GetTaskList().GetHeadChoreName());
         }
     }
 
     class MenuController : Controller
     {
-        Button testGoToTasksButton;
-        Button testGoToGroupsButton;
-        ListView menuListView;
-        List<string> menuOptions = new List<string>
-        {
-            "Profile",
-            "Groups",
-            "Task List",
-            "Back",
-            "Log Out"
-        };
+        Button toTasksButton;
+        Button toGroupsButton;
+        Button toLoginButton;
 
         public MenuController(MainActivity act)
         {
-            testGoToTasksButton = act.FindViewById<Button>(Resource.Id.buttonMenuToTaskList);
-            testGoToGroupsButton = act.FindViewById<Button>(Resource.Id.buttonMenuToGroupList);
+            toTasksButton = act.FindViewById<Button>(Resource.Id.buttonMenuToTaskList);
+            toGroupsButton = act.FindViewById<Button>(Resource.Id.buttonMenuToGroupList);
+            toLoginButton = act.FindViewById<Button>(Resource.Id.buttonMenuToLogin);
 
-            testGoToTasksButton.Click += (sender, e) =>
+            toTasksButton.Click += (sender, e) =>
             {
                 act.ChangeTo(Resource.Layout.choreListLayout);
             };
 
-            testGoToGroupsButton.Click += (sender, e) =>
+            toGroupsButton.Click += (sender, e) =>
             {
                 act.ChangeTo(Resource.Layout.groupListLayout);
+            };
+
+            toLoginButton.Click += (sender, e) =>
+            {
+                act.ChangeTo(Resource.Layout.loginLayout);
             };
         }
     }
@@ -145,6 +143,7 @@ namespace ChoreChomper.Controller
     {
         List<Chore> chores;
         Button mainMenuButton;
+        Button settingsButton;
         Button addChoreButton;
         ListView choreListView;
         
@@ -152,15 +151,20 @@ namespace ChoreChomper.Controller
         {
             chores = SetupChores(act);
             mainMenuButton = act.FindViewById<Button>(Resource.Id.navButtonChoreList);
+            settingsButton = act.FindViewById<Button>(Resource.Id.settingsButtonChoreList);
             addChoreButton = act.FindViewById<Button>(Resource.Id.buttonAddChore);
             choreListView = act.FindViewById<ListView>(Resource.Id.listOfChores);
-
-            SetupChores(act);
+            
             SetupList(act);
 
             mainMenuButton.Click += (sender, e) =>
             {
                 act.ChangeTo(Resource.Layout.mainMenuLayout);
+            };
+
+            settingsButton.Click += (sender, e) =>
+            {
+                act.ChangeTo(Resource.Layout.choreListSettingsLayout);
             };
 
             addChoreButton.Click += (sender, e) =>
@@ -171,21 +175,16 @@ namespace ChoreChomper.Controller
             choreListView.ItemClick += (sender, e) =>
             {
                 Chore targetChore = chores[(int)e.Id];
-                act.SetTargetChore(targetChore);
+                act.GetSessionData().SetTargetChore(targetChore);
                 act.ChangeTo(Resource.Layout.choreEditLayout);
             };
         }
 
         private List<Chore> SetupChores (MainActivity act)
         {
-            List<Chore> fullList = act.getMainGroup().GetTaskList().GetChoreList();
-            List<Chore> ListOfIncomplete = new List<Chore>();
-            foreach (Chore c in fullList)
-            {
-                if (!c.isComplete())
-                    ListOfIncomplete.Add(c);
-            }
-            return ListOfIncomplete;
+            List<Chore> fullList = new List<Chore>();
+            fullList = GenerateFullList(act);
+            return GenerateFilteredList(fullList, act);
         }
 
         private void SetupTestList(MainActivity act)
@@ -213,28 +212,118 @@ namespace ChoreChomper.Controller
             }
             ArrayAdapter<string> adapter = new ArrayAdapter<string>(act, Android.Resource.Layout.SimpleListItem1, choreNames);
             choreListView.Adapter = adapter;
-            // TODO: add stuff to chore list and make it display them
+        }
+        
+        List<Chore> GenerateFullList(MainActivity act)
+        {
+            if (act.GetSessionData().GetChoreFilterGroup())
+            {
+                return GenerateFullListTargetGroup(act);
+            }
+            else
+            {
+                return GenerateFullListAllGroups(act);
+            }
+        }
+
+        List<Chore> GenerateFullListAllGroups(MainActivity act)
+        {
+            List<Group> userGroups = act.GetSessionData().GetUsersGroups();
+            List<Chore> allChores = new List<Chore>();
+            foreach (Group g in userGroups)
+            {
+                allChores.AddRange(g.GetTaskList().GetChoreList());
+            }
+            return allChores;
+        }
+
+        List<Chore> GenerateFullListTargetGroup(MainActivity act)
+        {
+            List<Chore> allChores = new List<Chore>();
+            allChores = act.GetSessionData().GetTargetGroup().GetTaskList().GetChoreList();
+            return allChores;
+        }
+
+        List<Chore> GenerateFilteredList(List<Chore> fullList, MainActivity act)
+        {
+            List<Chore> filteredList = new List<Chore>();
+            int localUserId = act.GetSessionData().GetCurrentUser().GetId();
+            bool wantAllAssignments = !act.GetSessionData().GetChoreFilterMine();
+            bool wantAllComplete = !act.GetSessionData().GetChoreFilterComplete();
+            bool wantAllPriority = !act.GetSessionData().GetChoreFilterPriority();
+
+            foreach (Chore c in fullList)
+            {
+                if ((wantAllAssignments || c.GetAssignment() == localUserId) && (wantAllComplete || c.isComplete()) && (wantAllPriority || c.GetPriority()))
+                    filteredList.Add(c);
+            }
+
+            return filteredList;
+        }
+    }
+
+    class ChoreListSettingsController : Controller
+    {
+        Button backButton;
+        CheckBox filterMineBox;
+        CheckBox filterGroupBox;
+        CheckBox filterPriorityBox;
+        CheckBox filterCompleteBox;
+
+        public ChoreListSettingsController(MainActivity act)
+        {
+            backButton = act.FindViewById<Button>(Resource.Id.buttonChoreListSettingsToChoreList);
+            filterMineBox = act.FindViewById<CheckBox>(Resource.Id.checkChoreListSettingsMine);
+            filterGroupBox = act.FindViewById<CheckBox>(Resource.Id.checkChoreListSettingsGroup);
+            filterPriorityBox = act.FindViewById<CheckBox>(Resource.Id.checkChoreListSettingsPriority);
+            filterCompleteBox = act.FindViewById<CheckBox>(Resource.Id.checkChoreListSettingsComplete);
+
+            SetInitialValues(act);
+
+            backButton.Click += (sender, e) =>
+            {
+                //TODO: store filter values
+                act.GetSessionData().SetFilters(filterMineBox.Checked, filterGroupBox.Checked, filterPriorityBox.Checked, filterCompleteBox.Checked);
+                act.ChangeTo(Resource.Layout.choreListLayout);
+            };
+        }
+
+        void SetInitialValues(MainActivity act)
+        {
+            filterMineBox.Checked = act.GetSessionData().GetChoreFilterMine();
+            filterGroupBox.Checked = act.GetSessionData().GetChoreFilterGroup();
+            filterPriorityBox.Checked = act.GetSessionData().GetChoreFilterPriority();
+            filterCompleteBox.Checked = act.GetSessionData().GetChoreFilterComplete();
         }
     }
 
     class ChoreCreationController : Controller
     {
         EditText newChoreNameText;
+        EditText newChoreAssignmentText;
+        EditText newChoreDeadlineText;
+        CheckBox newChorePriorityBox;
         Button confirmChoreButton;
         Button backButton;
 
         public ChoreCreationController(MainActivity act)
         {
             newChoreNameText = act.FindViewById<EditText>(Resource.Id.editNewChoreName);
+            newChoreAssignmentText = act.FindViewById<EditText>(Resource.Id.editNewChoreAssignment);
+            newChoreDeadlineText = act.FindViewById<EditText>(Resource.Id.dateNewChoreDeadline);
+            newChorePriorityBox = act.FindViewById<CheckBox>(Resource.Id.checkNewChorePriority);
             confirmChoreButton = act.FindViewById<Button>(Resource.Id.buttonAddChore);
             backButton = act.FindViewById<Button>(Resource.Id.buttonCreateChoreToChoreList);
             
             confirmChoreButton.Click += (sender, e) =>
             {
                 // TODO: consider making addTestChore a bool and using that to determine if the chore was added
-                AddTestChore(newChoreNameText.Text, act);
-                newChoreNameText.Text = "chore added";
-                act.ChangeTo(Resource.Layout.choreListLayout);
+                if (newChoreNameText.Text != "")
+                {
+                    AddTestChore(newChoreNameText.Text, newChoreAssignmentText.Text, newChoreDeadlineText.Text, newChorePriorityBox.Checked, act);
+                    newChoreNameText.Text = "chore added";
+                    act.ChangeTo(Resource.Layout.choreListLayout);
+                }
             };
 
             backButton.Click += (sender, e) =>
@@ -243,11 +332,11 @@ namespace ChoreChomper.Controller
             };
         }
 
-        public static string AddTestChore(string name, MainActivity act)
+        public static string AddTestChore(string name, string assignment, string deadline, bool priority, MainActivity act)
         {
-            Chore chore = new Chore(name, act.getMainUser().GetId(), "11/11/111");
-            act.getMainGroup().AddChore(chore);
-            return (act.getMainGroup().GetTaskList().GetHeadChoreName());
+            Chore chore = new Chore(name, act.GetSessionData().GetIdOfUser(assignment), deadline, priority);
+            act.GetSessionData().GetTargetGroup().AddChore(chore);
+            return (act.GetSessionData().GetTargetGroup().GetTaskList().GetHeadChoreName());
         }
     }
 
@@ -255,30 +344,33 @@ namespace ChoreChomper.Controller
     {
         Chore targetChore;
         EditText desiredChoreNameText;
+        EditText desiredChoreAssignmentText;
+        EditText desiredChoreDeadlineText;
+        CheckBox desiredChorePriorityBox;
         Button confirmChoreButton;
         Button completeChoreButton;
         Button backButton;
 
         public ChoreEditController(MainActivity act)
         {
-            targetChore = act.GetTargetChore();
+            targetChore = act.GetSessionData().GetTargetChore();
             desiredChoreNameText = act.FindViewById<EditText>(Resource.Id.editChoreEditName);
+            desiredChoreAssignmentText = act.FindViewById<EditText>(Resource.Id.editChoreEditAssignment);
+            desiredChoreDeadlineText = act.FindViewById<EditText>(Resource.Id.editChoreEditDeadline);
+            desiredChorePriorityBox = act.FindViewById<CheckBox>(Resource.Id.checkChoreEditPriority);
             confirmChoreButton = act.FindViewById<Button>(Resource.Id.buttonConfirmEditChore);
             completeChoreButton = act.FindViewById<Button>(Resource.Id.buttonCompleteChore);
             backButton = act.FindViewById<Button>(Resource.Id.buttonChoreEditToChoreList);
             desiredChoreNameText.Text = targetChore.GetName();
 
+            SetInitialValues(act);
+
             confirmChoreButton.Click += (sender, e) =>
             {
-                ApplyEdits();
+                ApplyEdits(act);
                 act.ChangeTo(Resource.Layout.choreListLayout);
             };
-            
-            void ApplyEdits()
-            {
-                targetChore.SetName(desiredChoreNameText.Text);
-            }
-
+           
             completeChoreButton.Click += (sender, e) =>
             {
                 targetChore.SetComplete(true);
@@ -291,11 +383,20 @@ namespace ChoreChomper.Controller
             };
         }
 
-        public static string AddTestChore(string name, MainActivity act)
+        void SetInitialValues(MainActivity act)
         {
-            Chore chore = new Chore(name, act.getMainUser().GetId(), "11/11/111");
-            act.getMainGroup().AddChore(chore);
-            return (act.getMainGroup().GetTaskList().GetHeadChoreName());
+            desiredChoreNameText.Text = targetChore.GetName();
+            desiredChoreAssignmentText.Text = act.GetSessionData().GetNameOfUser(targetChore.GetAssignment());
+            desiredChoreDeadlineText.Text = targetChore.GetDeadline().ToString();
+            desiredChorePriorityBox.Checked = targetChore.GetPriority();
+        }
+
+        void ApplyEdits(MainActivity act)
+        {
+            targetChore.SetName(desiredChoreNameText.Text);
+            targetChore.SetAssignment(act.GetSessionData().GetIdOfUser(desiredChoreAssignmentText.Text));
+            targetChore.SetDeadline(desiredChoreDeadlineText.Text);
+            targetChore.SetPriority(desiredChorePriorityBox.Checked);
         }
     }
 
@@ -324,7 +425,7 @@ namespace ChoreChomper.Controller
             groupListView.ItemClick += (sender, e) =>
             {
                 Group targetGroup = groups[(int)e.Id];
-                act.SetTargetGroup(targetGroup);
+                act.GetSessionData().SetTargetGroup(targetGroup);
                 SetupList(act);
             };
 
@@ -357,7 +458,7 @@ namespace ChoreChomper.Controller
 
         private void SetupList(MainActivity act)
         {
-            groups = act.getUsersGroups();
+            groups = act.GetSessionData().GetUsersGroups();
             groups = CreateOrderedGroupList(groups, act);
             List<string> groupNames = GetNamesOfGroups(groups);
             ArrayAdapter<string> adapter = new ArrayAdapter<string>(act, Android.Resource.Layout.SimpleListItem1, groupNames);
@@ -367,7 +468,7 @@ namespace ChoreChomper.Controller
         private List<Group> CreateOrderedGroupList(List<Group> groups, MainActivity act)
         {
             List<Group> orderedGroups = new List<Group>();
-            Group currentTargetGroup = act.GetTargetGroup();
+            Group currentTargetGroup = act.GetSessionData().GetTargetGroup();
             foreach (Group g in groups)
             {
                 if (g == currentTargetGroup)
@@ -392,18 +493,20 @@ namespace ChoreChomper.Controller
     class GroupCreateController : Controller
     {
         EditText newGroupNameText;
+        EditText newGroupKeyText;
         Button confirmGroupButton;
         Button backButton;
 
         public GroupCreateController(MainActivity act)
         {
             newGroupNameText = act.FindViewById<EditText>(Resource.Id.editNewGroupName);
+            newGroupKeyText = act.FindViewById<EditText>(Resource.Id.editNewGroupKey);
             confirmGroupButton = act.FindViewById<Button>(Resource.Id.buttonConfirmNewGroup);
             backButton = act.FindViewById<Button>(Resource.Id.buttonGroupCreateLayoutToGroupList);
 
             confirmGroupButton.Click += (sender, e) =>
             {
-                if (newGroupNameText.Text != "group added")
+                if (newGroupNameText.Text != "group added" && newGroupNameText.Text != "")
                 {
                     AddTestGroup(newGroupNameText.Text, act);
                     newGroupNameText.Text = "group added";
@@ -421,19 +524,22 @@ namespace ChoreChomper.Controller
         {
             Group group = new Group();
             group.GenerateTestGroup(name);
-            return act.JoinGroup(group);
+            //TODO: set a group password with the key
+            return act.GetSessionData().JoinGroup(group);
         }
     }
 
     class JoinGroupController : Controller
     {
         EditText newGroupNameText;
+        EditText newGroupKeyText;
         Button joinGroupButton;
         Button backButton;
 
         public JoinGroupController(MainActivity act)
         {
             newGroupNameText = act.FindViewById<EditText>(Resource.Id.editJoinGroupName);
+            newGroupKeyText = act.FindViewById<EditText>(Resource.Id.editJoinGroupKey);
             joinGroupButton = act.FindViewById<Button>(Resource.Id.buttonConfirmJoinGroup);
             backButton = act.FindViewById<Button>(Resource.Id.buttonJoinGroupToChoreList);
             
@@ -442,7 +548,7 @@ namespace ChoreChomper.Controller
                 act.ChangeTo(Resource.Layout.groupListLayout);
                 // TODO: actually join the group with the entered credentials
                 //  Check if group is in database
-                //  Check if you have the key for that group
+                //  Check if you have the correct key for that group
                 //  Join group in database
             };
             

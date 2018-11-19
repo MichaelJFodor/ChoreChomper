@@ -14,24 +14,29 @@ using ChoreChomper.Model;
 
 namespace ChoreChomper.Data
 {
-    class SessionData
+    public class SessionData
     {
         User currentUser = null;
         List<Group> usersGroups = new List<Group>();
         Group targetGroup;
         Chore targetChore;
 
+        bool choreFilterMine = false;
+        bool choreFilterGroup = false;
+        bool choreFilterPriority = false;
+        bool choreFilterComplete = false;
+
         public SessionData()
         {
             ;
         }
 
-        public User getCurrentUser()
+        public User GetCurrentUser()
         {
             return currentUser;
         }
 
-        public List<Group> getUsersGroups()
+        public List<Group> GetUsersGroups()
         {
             return usersGroups;
         }
@@ -58,10 +63,50 @@ namespace ChoreChomper.Data
             return targetChore;
         }
 
+        public bool GetChoreFilterMine()
+        {
+            return choreFilterMine;
+        }
+
+        public bool GetChoreFilterGroup()
+        {
+            return choreFilterGroup;
+        }
+
+        public bool GetChoreFilterPriority()
+        {
+            return choreFilterPriority;
+        }
+
+        public bool GetChoreFilterComplete()
+        {
+            return choreFilterComplete;
+        }
+
+        public void SetFilters(bool mine, bool group, bool priority, bool complete)
+        {
+            choreFilterMine = mine;
+            choreFilterGroup = group;
+            choreFilterPriority = priority;
+            choreFilterComplete = complete;
+        }
+
         public void LoadUser(string username)
         {
             currentUser = new User(username);
             LoadUsersGroups(currentUser.GetId());
+        }
+
+        public int GetIdOfUser(string name)
+        {
+            //TODO: fetch id from database if it isnt found return local user's
+            return currentUser.GetId();
+        }
+
+        public string GetNameOfUser(int id)
+        {
+            //TODO: fetch name from database if it isnt found return local user's
+            return currentUser.GetName();
         }
 
         private void LoadUsersGroups(int userId)
@@ -82,6 +127,7 @@ namespace ChoreChomper.Data
             usersGroups = new List<Group>();
             Group testGroup = new Group().GenerateTestGroup();
             testGroup.AddUser(currentUser);
+            targetGroup = testGroup;
             usersGroups.Add(testGroup);
         }
     }

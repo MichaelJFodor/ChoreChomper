@@ -56,14 +56,28 @@
 		android:text=""
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
+		android:layout_below="@id/textChoreListSettingsGroup"
+		android:id="@+id/checkChoreListSettingsPriority" />
+	<TextView
+		android:text="Filter By Priority"
+		android:textAppearance="?android:attr/textAppearanceLarge"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
 		android:layout_below="@+id/checkChoreListSettingsGroup"
+		android:layout_toRightOf="@+id/checkChoreListSettingsPriority"
+		android:id="@+id/textChoreListSettingsPriority" />
+	<CheckBox
+		android:text=""
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/checkChoreListSettingsPriority"
 		android:id="@+id/checkChoreListSettingsComplete" />
 	<TextView
 		android:text="Filter By Complete"
 		android:textAppearance="?android:attr/textAppearanceLarge"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_below="@+id/checkChoreListSettingsGroup"
+		android:layout_below="@+id/checkChoreListSettingsPriority"
 		android:layout_toRightOf="@+id/checkChoreListSettingsComplete"
 		android:id="@+id/textChoreListSettingsComplete" />
 

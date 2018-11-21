@@ -21,13 +21,14 @@
 		android:minHeight="25px"
 		android:layout_width="match_parent"
 		android:layout_height="260.5dp"
-		android:layout_below="@id/textChoresHeader"
+		android:layout_above="@+id/buttonAddChore"
+		android:layout_below="@+id/textChoresHeader"
 		android:id="@+id/listOfChores" />
 	<Button
 		android:text="+"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_below="@+id/listOfChores"
+		android:layout_alignParentBottom="true"
 		android:id="@+id/buttonAddChore" />
 	<Button
 		android:text="⋮"

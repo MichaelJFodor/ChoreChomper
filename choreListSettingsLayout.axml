@@ -73,7 +73,7 @@
 		android:layout_below="@+id/checkChoreListSettingsPriority"
 		android:id="@+id/checkChoreListSettingsComplete" />
 	<TextView
-		android:text="Filter By Complete"
+		android:text="Only Show Complete"
 		android:textAppearance="?android:attr/textAppearanceLarge"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"

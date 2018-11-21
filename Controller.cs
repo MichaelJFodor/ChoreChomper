@@ -248,13 +248,13 @@ namespace ChoreChomper.Controller
         {
             List<Chore> filteredList = new List<Chore>();
             int localUserId = act.GetSessionData().GetCurrentUser().GetId();
-            bool wantAllAssignments = !act.GetSessionData().GetChoreFilterMine();
-            bool wantAllComplete = !act.GetSessionData().GetChoreFilterComplete();
-            bool wantAllPriority = !act.GetSessionData().GetChoreFilterPriority();
+            bool wantOnlyMine = act.GetSessionData().GetChoreFilterMine();
+            bool wantOnlyComplete = act.GetSessionData().GetChoreFilterComplete();
+            bool wantOnlyPriority = act.GetSessionData().GetChoreFilterPriority();
 
             foreach (Chore c in fullList)
             {
-                if ((wantAllAssignments || c.GetAssignment() == localUserId) && (wantAllComplete || c.isComplete()) && (wantAllPriority || c.GetPriority()))
+                if ((!wantOnlyMine || c.GetAssignment() == localUserId) && (wantOnlyComplete == c.isComplete()) && (!wantOnlyPriority || c.GetPriority()))
                     filteredList.Add(c);
             }
 
@@ -361,8 +361,9 @@ namespace ChoreChomper.Controller
             confirmChoreButton = act.FindViewById<Button>(Resource.Id.buttonConfirmEditChore);
             completeChoreButton = act.FindViewById<Button>(Resource.Id.buttonCompleteChore);
             backButton = act.FindViewById<Button>(Resource.Id.buttonChoreEditToChoreList);
-            desiredChoreNameText.Text = targetChore.GetName();
 
+            desiredChoreNameText.Text = targetChore.GetName();
+            
             SetInitialValues(act);
 
             confirmChoreButton.Click += (sender, e) =>
@@ -389,6 +390,12 @@ namespace ChoreChomper.Controller
             desiredChoreAssignmentText.Text = act.GetSessionData().GetNameOfUser(targetChore.GetAssignment());
             desiredChoreDeadlineText.Text = targetChore.GetDeadline().ToString();
             desiredChorePriorityBox.Checked = targetChore.GetPriority();
+
+            if(targetChore.isComplete())
+            {
+                completeChoreButton.Enabled = false;
+                confirmChoreButton.Enabled = false;
+            }
         }
 
         void ApplyEdits(MainActivity act)

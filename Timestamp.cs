@@ -46,7 +46,7 @@ namespace ChoreChomper.Model.Utility
 
         public override string ToString()
         {
-            return (day.ToString("D2") + "/" + month.ToString("D2") + "/" + year.ToString("D4"));
+            return (month.ToString("D2") + "/" + day.ToString("D2") + "/" + year.ToString("D4"));
         }
 
         public int GetDay()

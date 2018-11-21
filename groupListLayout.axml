@@ -21,21 +21,22 @@
 		android:minHeight="25px"
 		android:layout_width="match_parent"
 		android:layout_height="260.5dp"
-		android:layout_below="@id/textGroupsHeader"
+		android:layout_below="@+id/textGroupsHeader"
+		android:layout_above="@+id/buttonCreateGroup"
 		android:id="@+id/listOfGroups" />
 	<Button
 		android:text="Join"
 		android:layout_width="100.0dp"
 		android:layout_height="wrap_content"
 		android:layout_alignParentLeft="true"
-		android:layout_below="@+id/listOfGroups"
+		android:layout_alignParentBottom="true"
 		android:id="@+id/buttonJoinGroup" />
 	<Button
 		android:text="Create"
 		android:layout_width="100.0dp"
 		android:layout_height="wrap_content"
 		android:layout_alignParentRight="true"
-		android:layout_below="@+id/listOfGroups"
+		android:layout_alignParentBottom="true"
 		android:id="@+id/buttonCreateGroup" />
 	<Button
 		android:text="☰"

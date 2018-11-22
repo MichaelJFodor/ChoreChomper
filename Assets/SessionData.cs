@@ -11,15 +11,29 @@ using Android.Views;
 using Android.Widget;
 
 using ChoreChomper.Model;
+using System.Net;
+using System.IO;
 
 namespace ChoreChomper.Data
 {
     class SessionData
     {
+        public const string LOCALIP = "192.168.1.205"; //V homePC
         User currentUser = null;
         List<Group> usersGroups = new List<Group>();
         Group targetGroup;
         Chore targetChore;
+
+        string callAPI(string temp)
+        {
+            HttpWebRequest myRequest = (HttpWebRequest)WebRequest.Create("http://" + LOCALIP + "/chorechomper/api/" + temp);
+            WebResponse myResponse = myRequest.GetResponse();
+            StreamReader sr = new StreamReader(myResponse.GetResponseStream(), System.Text.Encoding.UTF8);
+            string result = sr.ReadToEnd();
+            sr.Close();
+            myResponse.Close();
+            return result;
+        }
 
         public SessionData()
         {

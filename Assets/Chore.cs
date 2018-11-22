@@ -1,13 +1,26 @@
 ﻿using ChoreChomper.Model.Utility;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace ChoreChomper.Model
 {
+    public class ChoreList
+    {
+        [JsonProperty("records")]
+        public List<Chore> Records { get; set; }
+    }
     public class Chore
     {
+        [JsonProperty("choreId")]
         int choreId;
+        [JsonProperty("choreName")]
         string choreName;
+
+        [JsonProperty("assignedUserId")]
         int assignedUserId;
         int completedUserId;
+
+        [JsonProperty("deadlineTimestamp")]
         Timestamp deadlineTimestamp;
         Timestamp completedTimestamp;
         bool isPriority;

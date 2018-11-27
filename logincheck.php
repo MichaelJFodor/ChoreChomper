@@ -9,7 +9,7 @@
 	//echo $result->num_rows;
 	if($result->num_rows != 0)
 	{
-		echo json_encode("TRUE");
+		echo json_encode("true");
 	}
 	CloseCon($conn);
 ?>

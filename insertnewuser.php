@@ -1,10 +1,10 @@
 <?php
 	include 'connection.php';
 	$conn = OpenCon();
-	if($conn === false)
-	{
-		die("error" . mysqli_connect_error());
-	}
+	//if($conn === false)
+	//{
+	//	die("error" . mysqli_connect_error());
+	//}
 	$FirstName_ = $_GET["FirstName"];
 	$Email_ = $_GET["Email"];
 	$LastName_ = $_GET["LastName"];
@@ -18,10 +18,10 @@
 	$get_uid = "SELECT user_id FROM chorechomper.user WHERE Username = '$Username_'";
 	if(mysqli_query($conn,$new_user_sql))
 	{
-		echo "insertion successful";
+	//	echo "insertion successful";
 		if(mysqli_query($conn,$new_group_sql))
 		{
-			echo "good";
+	//		echo "good";
 			$u_result = mysqli_query($conn,$get_uid);
 			$row_u = mysqli_fetch_assoc($u_result);
 			$uid = $row_u['user_id'];
@@ -30,16 +30,17 @@
 			$row_g = mysqli_fetch_assoc($g_result);
 			$gid = $row_g['idGroup'];
 			$new_group_has_users_sql = "INSERT into chorechomper.group_has_users (id_group, user_id) VALUES ('$gid', '$uid')";
-			if(mysqli_query($conn,$new_group_has_users_sql))
-			{
-				echo "success";
-			}
+			mysqli_query($conn,$new_group_has_users_sql);
+			//if(mysqli_query($conn,$new_group_has_users_sql))
+			//{
+	//			echo "success";
+			//}
 		}
 	}
-	else
-	{
-		echo "error failed insertion";
-	}
+	//else
+	//{
+	//	echo "error failed insertion";
+	//}
 	
 	CloseCon($conn);
 ?>

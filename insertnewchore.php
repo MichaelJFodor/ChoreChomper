@@ -15,7 +15,7 @@
 		if(mysqli_query($conn,$sql))
 		{
 			echo 'good';
-			$get_chore_id = "SELECT chore_id FROM chorechomper.chores WHERE chore_title = '$ChoreName_' AND complete_by_date = '$CompleteBy_' AND assigned_to = '$AssignedTo_' AND priority = '$Priority_'";
+			$get_chore_id = "SELECT c_ID FROM chorechomper.chores WHERE chore_title = '$ChoreName_' AND complete_by_date = '$CompleteBy_' AND assigned_to = '$AssignedTo_' AND priority = '$Priority_'";
 			$c_result = mysqli_query($conn,$get_chore_id);
 			$row_c = mysqli_fetch_assoc($c_result);
 			$cid = $row_c['chore_id'];

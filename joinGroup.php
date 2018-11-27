@@ -12,9 +12,9 @@
 	{
 		$enter = "INSERT INTO chorechomper.group_has_users (id_group, user_id) VALUES ('$gid','$uid')";
 		mysqli_query($conn,$enter);
-		echo json_encode('true');
+		echo json_encode($gid);
 	}
 	else
-		echo json_encode('false');
+		echo json_encode('-1');
 	CloseCon($conn);
 	?>

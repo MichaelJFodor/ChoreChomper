@@ -8,15 +8,14 @@
 	$chore_id_ = $_GET["ChoreId"];
 	$completed_by_person_ = $_GET["completed_by_person"];
 	$completed_date_ = $_GET["completed_date"];
-	$test = "2018-12-01";
 	$sql = "UPDATE chores SET complete_by_date = '$CompleteBy_', chore_title = '$ChoreName_', completed_by = '$CompleteBy_', completed_date = '$completed_date_', priority = '$Priority_', assigned_to = '$AssignedTo_' WHERE (chore_id = '$chore_id_')";
 	if(mysqli_query($conn,$sql))
 	{
-		echo "update successful";
+		echo json_encode('success');
 	}
 	else
 	{
-		echo "update fail";
+		echo json_encode('-1');
 	}
 	CloseCon($conn);
 ?>

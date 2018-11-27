@@ -11,4 +11,7 @@
 		$username = $row['Username'];
 		echo json_encode($username);
 	}
+	else
+		echo json_encode('-1');
+	CloseCon($conn);
 	?>

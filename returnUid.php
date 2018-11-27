@@ -11,5 +11,7 @@
 		$uid = $row['user_id'];
 		echo json_encode($uid);
 	}
-
+	else
+		echo json_encode('-1');
+	CloseCon($conn);
 	?>

@@ -7,13 +7,11 @@
 	$complete_chore = "UPDATE chorechomper.chores SET completed_by = '$completed_by', completed_date = '$time' WHERE (c_ID = '$cid')";
 	if(mysqli_query($conn,$complete_chore))
 	{
-		echo 'success';
+		echo json_encode('true');
 	}
 	else
 	{
-		echo $cid;
-		echo $time;
-		echo $completed_by;
+		echo json_encode('false');
 	}
 
 	CloseCon($conn);

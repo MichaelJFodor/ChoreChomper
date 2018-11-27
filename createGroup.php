@@ -7,11 +7,11 @@
 	
 	if(mysqli_query($conn,$sql))
 	{
-		echo "insertion successful";
+		echo json_encode('true');
 	}
 	else
 	{
-		echo "error failed insertion";
+		echo json_encode('false');
 	}
 	CloseCon($conn);
 ?>

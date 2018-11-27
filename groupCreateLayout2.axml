@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+	<Toolbar
+		android:id="@+id/groupCreateToolbar"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:minHeight="?android:attr/actionBarSize"
+		android:background="?android:attr/colorPrimary"
+		android:title ="Create Group">
+		<Button
+			android:text="◄ Back"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:id="@+id/buttonGroupCreateLayoutToGroupList" />
+		
+	</Toolbar>
+	<TextView
+		android:text="Group Name"
+		android:textAppearance="?android:attr/textAppearanceLarge"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/buttonGroupCreateLayoutToGroupList"
+		android:id="@+id/textNewGroupName" />
+	<EditText
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/textNewGroupName"
+		android:id="@+id/editNewGroupName" />
+	<TextView
+		android:text="Group Key"
+		android:textAppearance="?android:attr/textAppearanceLarge"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/editNewGroupName"
+		android:id="@+id/textNewGroupKey" />
+	<EditText
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/textNewGroupKey"
+		android:id="@+id/editNewGroupKey" />
+	<Button
+		android:text="Confirm Group"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_alignParentBottom="true"
+		android:id="@+id/buttonConfirmNewGroup"
+		
+		 />
+
+</LinearLayout>

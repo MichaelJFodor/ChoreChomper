@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+	<Toolbar
+		android:minHeight="25px"
+		android:background="?android:attr/colorPrimary"
+		android:minWidth="25px"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:id="@+id/textChoreEditHeader"
+		android:title="Edit Chore">
+		<Button
+			android:text="◄ Back"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:id="@+id/buttonChoreEditToChoreList" />
+	</Toolbar>
+
+	<TextView
+		android:text="Chore Name:"
+		android:textAppearance="?android:attr/textAppearanceLarge"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/textChoreEditHeader"
+		android:id="@+id/textChoreEditName" />
+	<EditText
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/textChoreEditName"
+		android:id="@+id/editChoreEditName" />
+	<TextView
+		android:text="Assigned User:"
+		android:textAppearance="?android:attr/textAppearanceLarge"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/editChoreEditName"
+		android:id="@+id/textChoreEditAssignment" />
+	<EditText
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/textChoreEditAssignment"
+		android:id="@+id/editChoreEditAssignment" />
+	<TextView
+		android:text="Chore Deadline:"
+		android:textAppearance="?android:attr/textAppearanceLarge"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/editChoreEditAssignment"
+		android:id="@+id/textChoreEditDeadline" />
+	<EditText
+		android:inputType="date"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/textChoreEditDeadline"
+		android:id="@+id/editChoreEditDeadline" />
+	<TextView
+		android:text="Priority:"
+		android:textAppearance="?android:attr/textAppearanceLarge"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/editChoreEditDeadline"
+		android:id="@+id/textChoreEditPriority" />
+	<CheckBox
+		android:text=""
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_toRightOf="@+id/textChoreEditPriority"
+		android:layout_below="@+id/editChoreEditDeadline"
+		android:id="@+id/checkChoreEditPriority" />
+    <Button
+        android:text="Complete Chore"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/buttonConfirmEditChore"
+        android:id="@+id/buttonCompleteChore"/>
+    <Button
+        android:text="Confirm Edits"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/buttonConfirmEditChore"/>
+
+</LinearLayout>

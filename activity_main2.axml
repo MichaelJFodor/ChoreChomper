@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:text="Chore name:"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textChoreName"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textChoreName"
+        android:id="@+id/editChoreName"
+        android:clickable="false" />
+    <Button
+        android:text="Add Chore"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editChoreName"
+        android:id="@+id/buttonAddChore"/>
+    <Button
+        android:text="View Chores"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/buttonAddChore"
+        android:id="@+id/buttonViewChores"
+        android:layout_marginLeft="200px"
+        android:layout_marginRight="50px" />
+
+</LinearLayout>

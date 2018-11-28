@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+	<Button
+		android:text="◄"
+		android:layout_width="36.0dp"
+		android:layout_height="36.0dp"
+		android:layout_alignParentLeft="true"
+		android:id="@+id/buttonChoreListSettingsToChoreList" />
+	<TextView
+		android:text="Edit Chore:"
+		android:textAppearance="?android:attr/textAppearanceLarge"
+		android:layout_width="wrap_content"
+		android:layout_height="36.0dp"
+		android:minWidth="25px"
+		android:minHeight="25px"
+		android:gravity="bottom"
+		android:textAlignment="gravity"
+		android:layout_toRightOf="@+id/buttonChoreListSettingsToChoreList"
+		android:id="@+id/textChoreListSettingsHeader" />
+	<CheckBox
+		android:text=""
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/buttonChoreListSettingsToChoreList"
+		android:id="@+id/checkChoreListSettingsMine" />
+	<TextView
+		android:text="Filter By Mine"
+		android:textAppearance="?android:attr/textAppearanceLarge"
+		android:layout_width="match_parent"
+		android:layout_height="36.0dp"
+		android:minWidth="25px"
+		android:minHeight="25px"
+		android:layout_below="@+id/buttonChoreListSettingsToChoreList"
+		android:layout_toRightOf="@+id/checkChoreListSettingsMine"
+		android:id="@+id/textChroeListSettingsMine" />
+	<CheckBox
+		android:text=""
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/checkChoreListSettingsMine"
+		android:id="@+id/checkChoreListSettingsGroup" />
+	<TextView
+		android:text="Filter By Group"
+		android:textAppearance="?android:attr/textAppearanceLarge"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/checkChoreListSettingsMine"
+		android:layout_toRightOf="@+id/checkChoreListSettingsGroup"
+		android:id="@+id/textChoreListSettingsGroup" />
+	<CheckBox
+		android:text=""
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/textChoreListSettingsGroup"
+		android:id="@+id/checkChoreListSettingsPriority" />
+	<TextView
+		android:text="Filter By Priority"
+		android:textAppearance="?android:attr/textAppearanceLarge"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/checkChoreListSettingsGroup"
+		android:layout_toRightOf="@+id/checkChoreListSettingsPriority"
+		android:id="@+id/textChoreListSettingsPriority" />
+	<CheckBox
+		android:text=""
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/checkChoreListSettingsPriority"
+		android:id="@+id/checkChoreListSettingsComplete" />
+	<TextView
+		android:text="Only Show Complete"
+		android:textAppearance="?android:attr/textAppearanceLarge"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/checkChoreListSettingsPriority"
+		android:layout_toRightOf="@+id/checkChoreListSettingsComplete"
+		android:id="@+id/textChoreListSettingsComplete" />
+
+
+</RelativeLayout>

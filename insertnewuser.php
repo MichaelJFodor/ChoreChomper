@@ -11,10 +11,12 @@
 	$Password_ = $_GET["Password"];
 	$Phone_ = $_GET["Phone"];
 	$Username_ = $_GET["Username"];
-	$combined_key = $Username_ . $Password_;
+	$default = 'default';
+	$combined_key = $Username_ . $default;
+	$combined_password = $Username_ . $Password_;
 	//echo "$Email_ $FirstName_ $LastName_ $Password_ $Phone_ $Username_";
 	$new_user_sql = "INSERT into chorechomper.user (Email,FirstName,LastName,Password,Phone,Username) Values ('$Email_','$FirstName_','$LastName_','$Password_','$Phone_','$Username_')";
-	$new_group_sql = "INSERT into chorechomper.group (nameGroup, groupPassword) Values ('$combined_key','$combined_key')";
+	$new_group_sql = "INSERT into chorechomper.group (nameGroup, groupPassword) Values ('$combined_key','$combined_password')";
 	$get_uid = "SELECT user_id FROM chorechomper.user WHERE Username = '$Username_'";
 	if(mysqli_query($conn,$new_user_sql))
 	{

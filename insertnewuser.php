@@ -31,6 +31,7 @@
 			$gid = $row_g['idGroup'];
 			$new_group_has_users_sql = "INSERT into chorechomper.group_has_users (id_group, user_id) VALUES ('$gid', '$uid')";
 			mysqli_query($conn,$new_group_has_users_sql);
+			echo json_encode($uid);
 			//if(mysqli_query($conn,$new_group_has_users_sql))
 			//{
 	//			echo "success";

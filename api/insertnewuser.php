@@ -12,6 +12,9 @@
 	$Phone_ = $_GET["Phone"];
 	$Username_ = $_GET["Username"];
 	$default = 'default';
+	$mkGroup = ' Make Group';
+	$firstChore = $Username_ . $mkGroup;
+	
 	$combined_key = $Username_ . $default;
 	$combined_password = $Username_ . $Password_;
 	//echo "$Email_ $FirstName_ $LastName_ $Password_ $Phone_ $Username_";
@@ -37,13 +40,13 @@
 			$gid = $row_g['idGroup'];
 			$new_group_has_users_sql = "INSERT into chorechomper.group_has_users (id_group, user_id) VALUES ('$gid', '$uid')";
 			mysqli_query($conn,$new_group_has_users_sql);
-			$a="INSERT INTO chorechomper.chores (chore_title, complete_by_date, priority, assigned_to) VALUES ('Make Group', '0/0/0000', '1', '$uid')";
+			$a="INSERT INTO chorechomper.chores (chore_title, complete_by_date, priority, assigned_to) VALUES ('$firstChore', '0/0/0000', '1', '$uid')";
 			mysqli_query($conn,$a);
-			$get_chore_id = "SELECT c_ID FROM chorechomper.chores WHERE chore_title = 'Make Group' AND complete_by_date = 'now' AND assigned_to = '$uid' AND priority = '1'";
+			$get_chore_id = "SELECT c_ID FROM chorechomper.chores WHERE chore_title = '$firstChore' AND complete_by_date = '0/0/0000' AND assigned_to = '$uid' AND priority = '1'";
             $c_result = mysqli_query($conn,$get_chore_id);
             $row_c = mysqli_fetch_assoc($c_result);
 			$cid = $row_c['c_ID'];
-			$new_user_chore = "INSERT into user_has_chores (user_id, chore_id) Values ('$uid', '$cid')";
+			$new_user_chore = "INSERT into chorechomper.user_has_chores (user_id, chore_id) Values ('$uid', '$cid')";
 			mysqli_query($conn,$new_user_chore);
 			echo json_encode($uid);
 			//if(mysqli_query($conn,$new_group_has_users_sql))

@@ -41,9 +41,6 @@ if($num>0){
         // just $name only
         extract($row);
 		
-		if(!in_array($c_ID, $cid_arr)){
-			
-			array_push($cid_arr, $c_ID);
 			
 			$chore_item=array(
 				"choreId" => $c_ID,
@@ -56,7 +53,7 @@ if($num>0){
 			);
 	 
 			array_push($chore_arr["records"], $chore_item);
-		}
+		
     }
  
     // set response code - 200 OK

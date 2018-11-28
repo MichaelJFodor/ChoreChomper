@@ -126,6 +126,7 @@ namespace ChoreChomper.Model
 
         public string GetDeadline()
         {
+
             return deadlineString;
         }
 
@@ -153,7 +154,7 @@ namespace ChoreChomper.Model
 
         public bool isComplete()
         {
-            return (completedTimestamp != null);
+            return (completedUserId != "0");
         }
     }
 }

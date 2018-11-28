@@ -311,9 +311,12 @@ namespace ChoreChomper.Controller
                 // TODO: consider making addTestChore a bool and using that to determine if the chore was added
                 if (newChoreNameText.Text != "")
                 {
-                    AddTestChore(newChoreNameText.Text, newChoreAssignmentText.Text, newChoreDeadlineText.Text, newChorePriorityBox.Checked.ToString(), act);
+                    string check = "0";
+                    if (newChorePriorityBox.Checked)
+                        check = "1";
+                    AddTestChore(newChoreNameText.Text, newChoreAssignmentText.Text, newChoreDeadlineText.Text, check, act);
                     newChoreNameText.Text = "chore added";
-                    //act.ChangeTo(Resource.Layout.choreListLayout);
+                    act.ChangeTo(Resource.Layout.choreListLayout);
                 }
             };
 
@@ -328,7 +331,7 @@ namespace ChoreChomper.Controller
             //TODO: remove unused code
             //Chore chore = new Chore(name, act.GetSessionData().GetIdOfUser(assignment), deadline, priority);
             //act.GetSessionData().GetTargetGroup().AddChore(chore);
-            act.GetSessionData().callAPI("insertnewchore.php?ChoreName=" + name + "&CompletedBy=" + deadline + "&AssignedTo=" + act.GetSessionData().GetIdOfUser(assignment) + "&Priority=" + priority);
+            act.GetSessionData().callAPI("insertnewchore.php?ChoreName=" + name + "&CompleteBy=" + deadline + "&AssignedTo=" + act.GetSessionData().GetIdOfUser(assignment) + "&Priority=" + priority);
             return (name);
         }
     }
@@ -396,7 +399,11 @@ namespace ChoreChomper.Controller
             targetChore.SetName(desiredChoreNameText.Text);
             targetChore.SetAssignment(act.GetSessionData().GetIdOfUser(desiredChoreAssignmentText.Text));
             targetChore.SetDeadline(desiredChoreDeadlineText.Text);
-            targetChore.SetPriority(desiredChorePriorityBox.Checked.ToString());
+            string check = "0";
+            if (desiredChorePriorityBox.Checked)
+                check = "1";
+            targetChore.SetPriority(check);
+            act.GetSessionData().callAPI("updateChore.php?ChoreName=" + targetChore.GetName() + "&CompleteBy=" + targetChore.GetDeadline() + "&AssignedTo=" + act.GetSessionData().GetIdOfUser(targetChore.GetAssignment()) + "&Priority=" + targetChore.GetPriority() + "&ChoreId=" + targetChore.GetId());
         }
     }
 
@@ -547,6 +554,8 @@ namespace ChoreChomper.Controller
             
             joinGroupButton.Click += (sender, e) =>
             {
+                Group gJoin = new Group();
+                gJoin.AssignGroup(newGroupNameText.Text, newGroupKeyText.Text, act.GetSessionData().GetCurrentUser().GetId());
                 act.ChangeTo(Resource.Layout.groupListLayout);
                 // TODO: actually join the group with the entered credentials
                 //  Check if group is in database

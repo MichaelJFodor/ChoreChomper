@@ -13,7 +13,7 @@ $db = $database->getConnection();
  
 // initialize object
 $chore = new Chore($db);
- 
+
 // query products
 $stmt = $chore->read();
 $num = $stmt->rowCount();

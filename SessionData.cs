@@ -121,9 +121,9 @@ namespace ChoreChomper.Data
             return targetGroup;
         }
 
-        public void GenerateTestSession()
+        public void GenerateTestSession(string username)
         {
-            currentUser = new User().GenerateTestUser();
+            currentUser = new User().GenerateTestUser(username);
             usersGroups = new List<Group>();
             Group testGroup = new Group().GenerateTestGroup();
             testGroup.AddUser(currentUser);

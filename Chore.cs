@@ -9,22 +9,31 @@ namespace ChoreChomper.Model
         int assignedUserId;
         int completedUserId;
         Timestamp deadlineTimestamp;
+        string deadlineString;
         Timestamp completedTimestamp;
+        string completedString;
         bool isPriority;
-        bool isCompleted;
 
         //constructor
         public Chore(string name, int passedUserId, string deadline, bool priority = false)
         {
-            isCompleted = false;
             completedUserId = -1;
-            completedTimestamp = new Timestamp();
+            completedTimestamp = null;
+            completedString = null;
 
             choreName = name;
             choreId = generateChoreId();
             assignedUserId = passedUserId;
-            if (deadline == "") { deadlineTimestamp = new Timestamp("00/00/0000").CurrentTimestamp(); }
-            else                { deadlineTimestamp = new Timestamp(deadline); }
+            if (deadline == "")
+            {
+                deadlineTimestamp = new Timestamp("00/00/0000").CurrentTimestamp();
+                deadlineString = deadlineTimestamp.ToString();
+            }
+            else
+            {
+                deadlineTimestamp = new Timestamp(deadline);
+                deadlineString = deadlineTimestamp.ToString();
+            }
             isPriority = priority;
         }
 
@@ -35,9 +44,10 @@ namespace ChoreChomper.Model
             assignedUserId = old.assignedUserId;
             completedUserId = old.completedUserId;
             deadlineTimestamp = new Timestamp(old.deadlineTimestamp);
+            deadlineString = deadlineTimestamp.ToString();
             completedTimestamp = new Timestamp(old.completedTimestamp);
+            completedString = completedTimestamp.ToString();
             isPriority = old.isPriority;
-            isCompleted = old.isCompleted;
         }
 
         int generateChoreId()
@@ -56,19 +66,13 @@ namespace ChoreChomper.Model
             //TODO: get the Id of the user who marked it complete and assign it
             completedUserId = assignedUserId;
             completedTimestamp = new Timestamp().CurrentTimestamp();
-            isCompleted = true;
+            completedString = completedTimestamp.ToString();
         }
 
         public int AssignUser(int passedUserId)
         {
             assignedUserId = passedUserId;
             return (assignedUserId);
-        }
-
-        public Timestamp UpdateDeadline(string deadline)
-        {
-            deadlineTimestamp = new Timestamp(deadline);
-            return deadlineTimestamp;
         }
 
         public bool CheckId(int keyId)
@@ -101,14 +105,18 @@ namespace ChoreChomper.Model
 
         public string GetDeadline()
         {
-            return deadlineTimestamp.ToString();
+            return deadlineString;
         }
 
         public string SetDeadline(string newDeadline)
         {
             if (newDeadline != "")
+            {
                 deadlineTimestamp = new Timestamp(newDeadline);
-            return deadlineTimestamp.ToString();
+                deadlineString = deadlineTimestamp.ToString();
+            }
+
+            return deadlineString;
         }
 
         public bool GetPriority()
@@ -124,13 +132,7 @@ namespace ChoreChomper.Model
 
         public bool isComplete()
         {
-            return isCompleted;
-        }
-
-        public bool SetComplete(bool completed)
-        {
-            isCompleted = completed;
-            return isCompleted;
+            return (completedTimestamp != null);
         }
     }
 }

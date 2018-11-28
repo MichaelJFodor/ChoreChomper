@@ -44,7 +44,8 @@ namespace ChoreChomper
 
         private void SetupUserData()
         {
-            currentSession.GenerateTestSession();
+            // TODO: REMOVED FOR TESTING PURPOSES
+            //currentSession.GenerateTestSession();
         }
 
         public bool ChangeTo(int layout)

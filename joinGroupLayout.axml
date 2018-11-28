@@ -47,7 +47,7 @@
 		android:layout_below="@+id/textJoinGroupKey"
 		android:id="@+id/editJoinGroupKey" />
 	<Button
-		android:text="Confrim Join"
+		android:text="Confirm Join"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_alignParentBottom="true"

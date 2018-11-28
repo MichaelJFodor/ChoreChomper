@@ -32,10 +32,10 @@
             return userName;
         }
 
-        public User GenerateTestUser()
+        public User GenerateTestUser(string name)
         {
             userId = 0;
-            userName = "Bob";
+            userName = name;
 
             return this;
         }

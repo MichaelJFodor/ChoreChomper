@@ -37,7 +37,8 @@ namespace ChoreChomper.Controller
 
             loginButton.Click += (sender, e) =>
             {
-                // TODO: handle login attempt
+                // TODO: validate user
+                act.GetSessionData().GenerateTestSession(usernameText.Text);
                 act.ChangeTo(Resource.Layout.choreListLayout);
             };
 
@@ -106,7 +107,7 @@ namespace ChoreChomper.Controller
         {
             Chore chore = new Chore(name, act.GetSessionData().GetCurrentUser().GetId(), "11/11/111");
             act.GetSessionData().GetTargetGroup().AddChore(chore);
-            return (act.GetSessionData().GetTargetGroup().GetTaskList().GetHeadChoreName());
+            return (act.GetSessionData().GetTargetGroup().getTaskList().GetHeadChoreName());
         }
     }
 
@@ -232,7 +233,7 @@ namespace ChoreChomper.Controller
             List<Chore> allChores = new List<Chore>();
             foreach (Group g in userGroups)
             {
-                allChores.AddRange(g.GetTaskList().GetChoreList());
+                allChores.AddRange(g.getTaskList().GetChoreList());
             }
             return allChores;
         }
@@ -240,7 +241,7 @@ namespace ChoreChomper.Controller
         List<Chore> GenerateFullListTargetGroup(MainActivity act)
         {
             List<Chore> allChores = new List<Chore>();
-            allChores = act.GetSessionData().GetTargetGroup().GetTaskList().GetChoreList();
+            allChores = act.GetSessionData().GetTargetGroup().getTaskList().GetChoreList();
             return allChores;
         }
 
@@ -336,7 +337,7 @@ namespace ChoreChomper.Controller
         {
             Chore chore = new Chore(name, act.GetSessionData().GetIdOfUser(assignment), deadline, priority);
             act.GetSessionData().GetTargetGroup().AddChore(chore);
-            return (act.GetSessionData().GetTargetGroup().GetTaskList().GetHeadChoreName());
+            return (act.GetSessionData().GetTargetGroup().getTaskList().GetHeadChoreName());
         }
     }
 
@@ -374,7 +375,7 @@ namespace ChoreChomper.Controller
            
             completeChoreButton.Click += (sender, e) =>
             {
-                targetChore.SetComplete(true);
+                targetChore.MarkComplete();
                 act.ChangeTo(Resource.Layout.choreListLayout);
             };
 

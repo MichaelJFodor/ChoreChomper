@@ -46,7 +46,7 @@ namespace ChoreChomper.Model
             return (new Group());
         }
 
-        public Group GenerateTestGroup(string name = "Best_Group")
+        public Group GenerateTestGroup(string name = "self")
         {
             groupId = 0;
             groupName = name;
@@ -68,9 +68,14 @@ namespace ChoreChomper.Model
             return chore;
         }
 
-        public TaskList GetTaskList()
+        public TaskList getTaskList()
         {
             return(tasks);
+        }
+
+        public int getId()
+        {
+            return groupId;
         }
 
         public string getName()

@@ -18,11 +18,13 @@
 			android:layout_alignParentRight="true"
 			android:id="@+id/settingsButtonChoreList"
 			android:layout_marginBottom="0.0dp" />
+			android:layout_gravity="end"
 		<Button
 			android:text="☰"
 			android:layout_width="36.0dp"
 			android:layout_height="36.0dp"
 			android:layout_alignParentLeft="true"
+			android:layout_gravity="end"
 			android:id="@+id/navButtonChoreList" />
 	/>
 	<TextView

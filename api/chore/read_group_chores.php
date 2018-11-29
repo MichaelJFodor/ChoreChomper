@@ -33,8 +33,6 @@ if($num>0){
 	$cid_arr=array();
  
     // retrieve our table contents
-    // fetch() is faster than fetchAll()
-    // http://stackoverflow.com/questions/2770630/pdofetchall-vs-pdofetch-in-a-loop
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
         // extract row
         // this will make $row['name'] to
@@ -65,9 +63,10 @@ if($num>0){
  else{
  
     // set response code - 200 OK
-    http_response_code(200);
+    http_response_code(200); 
 	$chore_arr=array();
  
-    // tell the user no products found
+    // returns an empty list
     echo json_encode($chore_arr);
 }
+?>

@@ -13,6 +13,5 @@
 	{
 		echo json_encode('false');
 	}
-
 	CloseCon($conn);
 	?>

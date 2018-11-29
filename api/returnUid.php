@@ -1,9 +1,11 @@
 <?php
+	//this file returns the user id given the username
 	include 'connection.php';
 	$conn = OpenCon();
+
 	$username = $_GET["Username"];
-	$sql = ("SELECT user_id FROM chorechomper.user WHERE Username = '$username'");
-	$result = mysqli_query($conn,$sql);
+	$getUid_sql = ("SELECT user_id FROM chorechomper.user WHERE Username = '$username'");
+	$result = mysqli_query($conn,$getUid_sql);
 	
 	if($result->num_rows == 1)
 	{
@@ -13,5 +15,6 @@
 	}
 	else
 		echo json_encode('-1');
+	
 	CloseCon($conn);
 	?>

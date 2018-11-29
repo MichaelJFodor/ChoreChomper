@@ -1,6 +1,5 @@
 <?php
-//all print statements are for browser testing. will not show up in the app
-//openiing function
+//this files has functions that will allow other files to connect to the database
 function OpenCon()
  {
  	//connection credentials to kyle's database
@@ -17,9 +16,6 @@ function OpenCon()
 	if (!$conn) {
    	 die("Connection failed: " . mysqli_connect_error());
 	}
-	//echo "Connected successfullyff";
-
- 
  	return $conn;
  }
  //close connection 

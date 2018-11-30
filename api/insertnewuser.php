@@ -47,8 +47,8 @@
 			mysqli_query($conn,$new_group_has_users_sql);
 			
 			//creates a default chore that is hardcoded except for the name
-			$a="INSERT INTO chorechomper.chores (chore_title, complete_by_date, priority, assigned_to) VALUES ('$firstChore', '0/0/0000', '1', '$uid')";
-			mysqli_query($conn,$a);
+			$create_default_chore="INSERT INTO chorechomper.chores (chore_title, complete_by_date, priority, assigned_to) VALUES ('$firstChore', '0/0/0000', '1', '$uid')";
+			mysqli_query($conn,$create_default_chore);
 			
 			//gets the chore id
 			$get_chore_id = "SELECT c_ID FROM chorechomper.chores WHERE chore_title = '$firstChore' AND complete_by_date = '0/0/0000' AND assigned_to = '$uid' AND priority = '1'";

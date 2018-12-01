@@ -32,14 +32,6 @@ namespace ChoreChomper.Model
             //fetch and check id in database
         }
 
-        public bool CheckCredentials(string pass)
-        {
-            // compare against the databases' password for this userId
-            string result = sData.callAPI("logincheck.php?Username_Attempt=" + userId + "&Password_Attempt=" + pass);
-            result = (string)JsonConvert.DeserializeObject(result, typeof(string));
-            return result == "true";
-        }
-
         public string GetId()
         {
             return userId;
@@ -48,14 +40,6 @@ namespace ChoreChomper.Model
         public string GetName()
         {
             return userName;
-        }
-
-        public User GenerateTestUser()
-        {
-            userId = "0";
-            userName = "Bob";
-
-            return this;
         }
     }
 }

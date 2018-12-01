@@ -25,29 +25,6 @@ namespace ChoreChomper.Model
 
         SessionData sData = new SessionData();
 
-        //constructor
-        public Chore(string name, string passedUserId, string deadline, string priority = "0")
-        {
-            completedUserId = "-1";
-            completedTimestamp = null;
-            completedString = null;
-
-            choreName = name;
-            choreId = generateChoreId();
-            assignedUserId = passedUserId;
-            if (deadline == "")
-            {
-                deadlineTimestamp = new Timestamp("00/00/0000").CurrentTimestamp();
-                deadlineString = deadlineTimestamp.ToString();
-            }
-            else
-            {
-                deadlineTimestamp = new Timestamp(deadline);
-                deadlineString = deadlineTimestamp.ToString();
-            }
-            isPriority = priority;
-        }
-
         public Chore(Chore old)
         {
             choreId = old.choreId;
@@ -60,41 +37,20 @@ namespace ChoreChomper.Model
             completedString = completedTimestamp.ToString();
             isPriority = old.isPriority;
         }
+
         public Chore()
         {
             //null constructor for JSON parsing
         }
 
-        int generateChoreId()
-        {
-            //TODO: fetch greatest chore id and increment by 1
-            return 0;
-        }
-
-        public void MarkPriority()
-        {
-            isPriority = "1";
-        }
 
         public void MarkComplete()
         {
-            // get the Id of the user who marked it complete and assign its
             completedUserId = assignedUserId;
             completedTimestamp = new Timestamp().CurrentTimestamp();
             completedString = completedTimestamp.ToString();
 
             string result = sData.callAPI("completeChore.php?ChoreId=" + choreId + "&TimeStamp=" + completedString + "&CompletedBy=" + completedUserId);
-        }
-
-        public string AssignUser(string passedUserId)
-        {
-            assignedUserId = passedUserId;
-            return (assignedUserId);
-        }
-
-        public bool CheckId(int keyId)
-        {
-            return (keyId == choreId);
         }
 
         public string GetName()

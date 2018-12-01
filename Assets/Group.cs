@@ -20,19 +20,8 @@ namespace ChoreChomper.Model
         {
             //null constructor for json parsing
         }
-        public Group(string s)
-        {
-            groupId = "0";
-            groupName = "Fake";
-            valid = false;
-        }
-        public Group(string id, string name, bool validCheck)
-        {
-            groupId = id;
-            groupName = name;
-            valid = validCheck;
-        }
 
+        //future use for joining group by ID number
         public bool AssignGroup(int gID, string groupPassword)
         {
             //Fetch Group data corresponding to groupId
@@ -83,28 +72,6 @@ namespace ChoreChomper.Model
             if (result == "true")
                 AssignGroup(name, Password, uid);
             return this;
-        }
-
-        public Group GenerateTestGroup(string name = "Default Group")
-        {
-            groupId = "0";
-            groupName = name;
-            valid = true;
-            users = new List<User>();
-            tasks = new TaskList();
-            return this;
-        }
-
-        public User AddUser(User passedUser)
-        {
-            users.Add(passedUser);
-            return (passedUser);
-        }
-
-        public Chore AddChore(Chore chore)
-        {
-            tasks.AddChore(chore);
-            return chore;
         }
 
         public TaskList GetTaskList()

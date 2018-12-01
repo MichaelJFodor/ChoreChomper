@@ -1,19 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.Support.V7.Widget;
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
 using Android.Widget;
-//using Xamarin;
 
 using ChoreChomper.Model;
-using ChoreChomper.Data;
 using Newtonsoft.Json;
 
 namespace ChoreChomper.Controller
@@ -39,20 +28,7 @@ namespace ChoreChomper.Controller
 
             loginButton.Click += (sender, e) =>
             {
-
-                // : handle login attempt
-                Console.WriteLine("logincheck.php?Username_Attempt=" + usernameText.Text + "&Password_Attempt=" + passwordText.Text);
-                string result = act.GetSessionData().callAPI("logincheck.php?Username_Attempt=" + usernameText.Text + "&Password_Attempt=" + passwordText.Text);
-                result = (string)JsonConvert.DeserializeObject(result, typeof(string));
-                if(result == "true")
-                {
-                    act.GetSessionData().LoadUser(usernameText.Text);
-                    act.ChangeTo(Resource.Layout.choreListLayout);
-                } else
-                {
-                    usernameText.Text = "";
-                    passwordText.Text = "";
-                }
+                LoginCheck(act);
                     
             };
 
@@ -60,6 +36,22 @@ namespace ChoreChomper.Controller
             {
                 act.ChangeTo(Resource.Layout.newUserLayout);
             };
+            
+        }
+        private void LoginCheck(MainActivity act)
+        {
+            string result = act.GetSessionData().callAPI("logincheck.php?Username_Attempt=" + usernameText.Text + "&Password_Attempt=" + passwordText.Text);
+            result = (string)JsonConvert.DeserializeObject(result, typeof(string));
+            if (result == "true")
+            {
+                act.GetSessionData().LoadUser(usernameText.Text);
+                act.ChangeTo(Resource.Layout.choreListLayout);
+            }
+            else
+            {
+                usernameText.Text = "";
+                passwordText.Text = "";
+            }
         }
     }
 
@@ -170,22 +162,6 @@ namespace ChoreChomper.Controller
             return GenerateFilteredList(fullList, act);
         }
 
-        private void SetupTestList(MainActivity act)
-        {
-            List<string> itemList = new List<string>
-            {
-                "item 0",
-                "item 1",
-                "item 2",
-                "item 3",
-                "item 4",
-                "item 5"
-            };
-
-            ArrayAdapter<string> adapter = new ArrayAdapter<string>(act, Android.Resource.Layout.SimpleListItem1, itemList);
-            choreListView.Adapter = adapter;
-        }
-
         private void SetupList(MainActivity act)
         {
             List<string> choreNames = new List<string>();
@@ -273,7 +249,7 @@ namespace ChoreChomper.Controller
 
             backButton.Click += (sender, e) =>
             {
-                //: store filter values
+                // store filter values
                 act.GetSessionData().SetFilters(filterMineBox.Checked, filterGroupBox.Checked, filterPriorityBox.Checked, filterCompleteBox.Checked);
                 act.ChangeTo(Resource.Layout.choreListLayout);
             };
@@ -308,13 +284,12 @@ namespace ChoreChomper.Controller
             
             confirmChoreButton.Click += (sender, e) =>
             {
-                // TODO: consider making addTestChore a bool and using that to determine if the chore was added
                 if (newChoreNameText.Text != "")
                 {
                     string check = "0";
                     if (newChorePriorityBox.Checked)
                         check = "1";
-                    AddTestChore(newChoreNameText.Text, newChoreAssignmentText.Text, newChoreDeadlineText.Text, check, act);
+                    AddChore(newChoreNameText.Text, newChoreAssignmentText.Text, newChoreDeadlineText.Text, check, act);
                     newChoreNameText.Text = "chore added";
                     act.ChangeTo(Resource.Layout.choreListLayout);
                 }
@@ -326,11 +301,8 @@ namespace ChoreChomper.Controller
             };
         }
 
-        public static string AddTestChore(string name, string assignment, string deadline, string priority, MainActivity act)
+        public static string AddChore(string name, string assignment, string deadline, string priority, MainActivity act)
         {
-            //TODO: remove unused code
-            //Chore chore = new Chore(name, act.GetSessionData().GetIdOfUser(assignment), deadline, priority);
-            //act.GetSessionData().GetTargetGroup().AddChore(chore);
             act.GetSessionData().callAPI("insertnewchore.php?ChoreName=" + name + "&CompleteBy=" + deadline + "&AssignedTo=" + act.GetSessionData().GetIdOfUser(assignment) + "&Priority=" + priority);
             return (name);
         }
@@ -403,7 +375,7 @@ namespace ChoreChomper.Controller
             if (desiredChorePriorityBox.Checked)
                 check = "1";
             targetChore.SetPriority(check);
-            act.GetSessionData().callAPI("updateChore.php?ChoreName=" + targetChore.GetName() + "&CompleteBy=" + targetChore.GetDeadline() + "&AssignedTo=" + act.GetSessionData().GetIdOfUser(targetChore.GetAssignment()) + "&Priority=" + targetChore.GetPriority() + "&ChoreId=" + targetChore.GetId());
+                act.GetSessionData().callAPI("updateChore.php?ChoreName=" + targetChore.GetName() + "&CompleteBy=" + targetChore.GetDeadline() + "&AssignedTo=" + targetChore.GetAssignment() + "&Priority=" + targetChore.GetPriority() + "&ChoreId=" + targetChore.GetId());
         }
     }
 
@@ -446,22 +418,6 @@ namespace ChoreChomper.Controller
             {
                 act.ChangeTo(Resource.Layout.groupCreateLayout);
             };
-        }
-
-        private void SetupTestList(MainActivity act)
-        {
-            List<string> itemList = new List<string>
-            {
-                "item 0",
-                "item 1",
-                "item 2",
-                "item 3",
-                "item 4",
-                "item 5"
-            };
-
-            ArrayAdapter<string> adapter = new ArrayAdapter<string>(act, Android.Resource.Layout.SimpleListItem1, itemList);
-            groupListView.Adapter = adapter;
         }
 
         private void SetupList(MainActivity act)
@@ -533,7 +489,6 @@ namespace ChoreChomper.Controller
         {
             Group group = new Group();
             group.GenerateNew(name, password,act.GetSessionData().GetCurrentUser().GetId());
-            //: set a group password with the key
             return group;
         }
     }
@@ -557,10 +512,6 @@ namespace ChoreChomper.Controller
                 Group gJoin = new Group();
                 gJoin.AssignGroup(newGroupNameText.Text, newGroupKeyText.Text, act.GetSessionData().GetCurrentUser().GetId());
                 act.ChangeTo(Resource.Layout.groupListLayout);
-                // TODO: actually join the group with the entered credentials
-                //  Check if group is in database
-                //  Check if you have the correct key for that group
-                //  Join group in database
             };
             
             backButton.Click += (sender, e) =>

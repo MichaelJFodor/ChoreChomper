@@ -1,16 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
-
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 
 using ChoreChomper.Model;
 using Newtonsoft.Json;
@@ -35,8 +25,6 @@ namespace ChoreChomper.Data
         bool choreFilterComplete = false;
 
         public const string MOBILEIP = "192.168.43.144";
-        public const string HOMEIP = "192.168.1.177";
-        public const string BENSONIP = "172.20.66.177";
         public string callAPI(string temp)
         {
             HttpWebRequest myRequest = (HttpWebRequest)WebRequest.Create("http://" + MOBILEIP + "/chorechomper/api/" + temp);
@@ -121,7 +109,6 @@ namespace ChoreChomper.Data
 
         public string GetIdOfUser(string name)
         {
-            //TODO: fetch id from database if it isnt found return local user's
             string result = callAPI("returnUid.php?Username=" + name);
             result = (string)JsonConvert.DeserializeObject(result, typeof(string));
             if (result != "-1")
@@ -132,7 +119,6 @@ namespace ChoreChomper.Data
 
         public string GetNameOfUser(string id)
         {
-            //TODO: fetch name from database if it isnt found return local user's
             string result = callAPI("getUsername.php?Id=" + id);
             result = (string)JsonConvert.DeserializeObject(result, typeof(string));
             if (result != "-1")
@@ -143,13 +129,6 @@ namespace ChoreChomper.Data
 
         public void LoadUsersGroups()
         {
-            // TODO: get a list of all group information associated with user from database and put them in userGroups;
-
-            //get current user id
-            //looks at db and get all the groups the user is a part of(List < Group > usersGroups)
-                //gets a list of groups
-            //populate those groups tasklist with chores
-                //for each of those groups update their tasklists
             string result = callAPI("chore/read_groups.php?u_ID="+currentUser.GetId());
             GroupList groups = (GroupList)JsonConvert.DeserializeObject(result, typeof(GroupList));
             usersGroups = groups.Groups;
@@ -164,16 +143,6 @@ namespace ChoreChomper.Data
             usersGroups.Add(newGroup);
             targetGroup = newGroup;
             return targetGroup;
-        }
-
-        public void GenerateTestSession()
-        {
-            currentUser = new User().GenerateTestUser();
-            usersGroups = new List<Group>();
-            Group testGroup = new Group().GenerateTestGroup();
-            testGroup.AddUser(currentUser);
-            targetGroup = testGroup;
-            usersGroups.Add(testGroup);
         }
 
     }

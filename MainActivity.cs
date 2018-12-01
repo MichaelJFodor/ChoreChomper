@@ -1,13 +1,8 @@
 ﻿using Android.App;
 using Android.OS;
 using Android.Support.V7.App;
-using Android.Support.V7.Widget;
-using Android.Runtime;
-using Android.Widget;
-using System.Collections.Generic;
 
 using ChoreChomper.Controller;
-using ChoreChomper.Model;
 using ChoreChomper.Data;
 
 namespace ChoreChomper
@@ -15,15 +10,12 @@ namespace ChoreChomper
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
     public class MainActivity : AppCompatActivity
     {
-        ChoreChomper.Controller.Controller controller;
+        Controller.Controller controller;
         SessionData currentSession = new SessionData();
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-
-            // TODO: should likely be done in the loginLayoutController
-            SetupUserData();
 
             // For future reference, remeber to set the content view before assigning the controller
             SetContentView(Resource.Layout.loginLayout);
@@ -32,20 +24,6 @@ namespace ChoreChomper
 
         public SessionData GetSessionData() { return currentSession; }
 
-        private void AttemptLogin(string username, string password)
-        {
-            bool credentialsAreValid = true;
-            // TODO: check database to see if these credentials are valid
-            if (credentialsAreValid)
-            {
-                currentSession.LoadUser(username);
-            }
-        }
-
-        private void SetupUserData()
-        {
-            currentSession.GenerateTestSession();
-        }
 
         public bool ChangeTo(int layout)
         {
